@@ -1,0 +1,12 @@
+{
+ "floor": 0.8913,
+ "calibrated_at": "2026-10-30T22:51:58Z",
+ "method": "accuracy-maximizing threshold over golden-set confidence distributions (40 items: 35 in-scope, 5 out-of-scope); complementary above/below check",
+ "accuracy_at_floor": 0.9,
+ "backend": "dense",
+ "embedder": "intfloat/multilingual-e5-base",
+ "collection": "bgb__mE5-base__v1",
+ "in_scope_min": 0.878,
+ "out_of_scope_max": 0.8982,
+ "note": "Distributions overlap heavily on e5 cosine (compressed range). The floor is a weak out-of-scope signal; the covered-topics response and the gap annotations carry the real scoping work. Re-calibrate on any backend change."
+}

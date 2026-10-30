@@ -3,9 +3,9 @@
  "results": [
   {
    "backend": "bm25",
-   "hitrate_k5": 0.0,
-   "hits": 0,
-   "applicable": 6,
+   "hitrate_k5": 0.06666666666666667,
+   "hits": 2,
+   "applicable": 30,
    "p95_ms": 0.6,
    "meets_gate": false,
    "per_item": [
@@ -67,16 +67,255 @@
       "535",
       "536"
      ]
+    },
+    {
+     "id": "gs-012-modernization-notice",
+     "hit": false,
+     "top5": [
+      "557",
+      "557a",
+      "557b",
+      "558c",
+      "578b"
+     ]
+    },
+    {
+     "id": "gs-013-refuse-modernization",
+     "hit": false,
+     "top5": [
+      "555b",
+      "557",
+      "557b",
+      "558c",
+      "559f"
+     ]
+    },
+    {
+     "id": "gs-014-death-of-tenant",
+     "hit": true,
+     "top5": [
+      "557a",
+      "559b",
+      "563",
+      "569"
+     ]
+    },
+    {
+     "id": "gs-015-flat-sold",
+     "hit": false,
+     "top5": [
+      "557",
+      "557b",
+      "558c",
+      "563b",
+      "578b"
+     ]
+    },
+    {
+     "id": "gs-016-termination-for-rent-increase",
+     "hit": false,
+     "top5": [
+      "535",
+      "536"
+     ]
+    },
+    {
+     "id": "gs-017-object-to-termination",
+     "hit": false,
+     "top5": [
+      "535",
+      "555b",
+      "556",
+      "559f"
+     ]
+    },
+    {
+     "id": "gs-018-mold-health",
+     "hit": false,
+     "top5": [
+      "555b",
+      "556",
+      "557a",
+      "559f",
+      "563"
+     ]
+    },
+    {
+     "id": "gs-019-eviction-unpaid-rent",
+     "hit": false,
+     "top5": [
+      "555b",
+      "556",
+      "556e",
+      "558",
+      "559f"
+     ]
+    },
+    {
+     "id": "gs-020-modernization-rent-increase",
+     "hit": false,
+     "top5": [
+      "535",
+      "536"
+     ]
+    },
+    {
+     "id": "gs-022-terminate-after-rent-increase",
+     "hit": false,
+     "top5": [
+      "557",
+      "557b",
+      "558c",
+      "574a",
+      "578b"
+     ]
+    },
+    {
+     "id": "gs-023-fixed-term-lease",
+     "hit": false,
+     "top5": [
+      "557",
+      "557b",
+      "558c",
+      "574a",
+      "578b"
+     ]
+    },
+    {
+     "id": "gs-024-stay-after-lease-ends",
+     "hit": false,
+     "top5": [
+      "535",
+      "555b",
+      "556",
+      "559f"
+     ]
+    },
+    {
+     "id": "gs-025-ev-charger",
+     "hit": false,
+     "top5": [
+      "557",
+      "557b",
+      "558c",
+      "574a",
+      "578b"
+     ]
+    },
+    {
+     "id": "gs-026-termination-form",
+     "hit": true,
+     "top5": [
+      "555d",
+      "557",
+      "557b",
+      "568"
+     ]
+    },
+    {
+     "id": "gs-027-withhold-rent-belongings",
+     "hit": false,
+     "top5": [
+      "535",
+      "555b",
+      "556",
+      "559f"
+     ]
+    },
+    {
+     "id": "gs-028-first-refusal",
+     "hit": false,
+     "top5": [
+      "557",
+      "557b",
+      "558c",
+      "574a",
+      "578b"
+     ]
+    },
+    {
+     "id": "gs-029-utility-cost-split",
+     "hit": false,
+     "top5": [
+      "535",
+      "536"
+     ]
+    },
+    {
+     "id": "gs-030-remove-kitchen",
+     "hit": false,
+     "top5": [
+      "535",
+      "555b",
+      "556",
+      "559f"
+     ]
+    },
+    {
+     "id": "gs-031-damage-claims-deadline",
+     "hit": false,
+     "top5": [
+      "535",
+      "555b",
+      "556",
+      "559f"
+     ]
+    },
+    {
+     "id": "gs-032-landlord-pledge",
+     "hit": false,
+     "top5": [
+      "535",
+      "536"
+     ]
+    },
+    {
+     "id": "gs-033-new-owner-termination",
+     "hit": false,
+     "top5": [
+      "535",
+      "536"
+     ]
+    },
+    {
+     "id": "gs-034-sublet-airbnb",
+     "hit": false,
+     "top5": [
+      "535",
+      "555b",
+      "556",
+      "559f"
+     ]
+    },
+    {
+     "id": "gs-035-repair-obligation",
+     "hit": false,
+     "top5": [
+      "557a",
+      "559b",
+      "563",
+      "569"
+     ]
+    },
+    {
+     "id": "gs-036-rent-offset",
+     "hit": false,
+     "top5": [
+      "535",
+      "555b",
+      "556",
+      "559f"
+     ]
     }
    ]
   },
   {
    "backend": "dense",
-   "hitrate_k5": 0.8333333333333334,
-   "hits": 5,
-   "applicable": 6,
-   "p95_ms": 39.2,
-   "meets_gate": false,
+   "hitrate_k5": 0.9666666666666667,
+   "hits": 29,
+   "applicable": 30,
+   "p95_ms": 22.1,
+   "meets_gate": true,
    "per_item": [
     {
      "id": "gs-001-notice-period",
@@ -143,16 +382,280 @@
       "566c",
       "568"
      ]
+    },
+    {
+     "id": "gs-012-modernization-notice",
+     "hit": true,
+     "top5": [
+      "555c",
+      "555d",
+      "555e",
+      "559b",
+      "568"
+     ]
+    },
+    {
+     "id": "gs-013-refuse-modernization",
+     "hit": true,
+     "top5": [
+      "555b",
+      "555c",
+      "555d",
+      "555e",
+      "559c"
+     ]
+    },
+    {
+     "id": "gs-014-death-of-tenant",
+     "hit": true,
+     "top5": [
+      "563",
+      "563a",
+      "563b",
+      "564",
+      "580"
+     ]
+    },
+    {
+     "id": "gs-015-flat-sold",
+     "hit": true,
+     "top5": [
+      "566",
+      "566b",
+      "566c",
+      "566e",
+      "567b"
+     ]
+    },
+    {
+     "id": "gs-016-termination-for-rent-increase",
+     "hit": true,
+     "top5": [
+      "542",
+      "555c",
+      "559b",
+      "561",
+      "573"
+     ]
+    },
+    {
+     "id": "gs-017-object-to-termination",
+     "hit": true,
+     "top5": [
+      "542",
+      "568",
+      "573d",
+      "574",
+      "580"
+     ]
+    },
+    {
+     "id": "gs-018-mold-health",
+     "hit": true,
+     "top5": [
+      "542",
+      "543",
+      "555e",
+      "568",
+      "580a"
+     ]
+    },
+    {
+     "id": "gs-019-eviction-unpaid-rent",
+     "hit": true,
+     "top5": [
+      "543",
+      "550",
+      "576",
+      "577a",
+      "580a"
+     ]
+    },
+    {
+     "id": "gs-020-modernization-rent-increase",
+     "hit": true,
+     "top5": [
+      "555b",
+      "556e",
+      "559",
+      "559b",
+      "559c"
+     ]
+    },
+    {
+     "id": "gs-022-terminate-after-rent-increase",
+     "hit": true,
+     "top5": [
+      "542",
+      "555e",
+      "561",
+      "573",
+      "580a"
+     ]
+    },
+    {
+     "id": "gs-023-fixed-term-lease",
+     "hit": true,
+     "top5": [
+      "542",
+      "550",
+      "575",
+      "576",
+      "579"
+     ]
+    },
+    {
+     "id": "gs-024-stay-after-lease-ends",
+     "hit": true,
+     "top5": [
+      "542",
+      "544",
+      "545",
+      "550",
+      "563a"
+     ]
+    },
+    {
+     "id": "gs-025-ev-charger",
+     "hit": true,
+     "top5": [
+      "554",
+      "555b",
+      "556",
+      "559c",
+      "559f"
+     ]
+    },
+    {
+     "id": "gs-026-termination-form",
+     "hit": true,
+     "top5": [
+      "542",
+      "550",
+      "568",
+      "574b",
+      "580a"
+     ]
+    },
+    {
+     "id": "gs-027-withhold-rent-belongings",
+     "hit": true,
+     "top5": [
+      "546",
+      "546a",
+      "556b",
+      "562b",
+      "570"
+     ]
+    },
+    {
+     "id": "gs-028-first-refusal",
+     "hit": true,
+     "top5": [
+      "556g",
+      "566",
+      "566b",
+      "570",
+      "577"
+     ]
+    },
+    {
+     "id": "gs-029-utility-cost-split",
+     "hit": true,
+     "top5": [
+      "551",
+      "556",
+      "556a",
+      "556c",
+      "560"
+     ]
+    },
+    {
+     "id": "gs-030-remove-kitchen",
+     "hit": true,
+     "top5": [
+      "539",
+      "552",
+      "562c",
+      "577a",
+      "580a"
+     ]
+    },
+    {
+     "id": "gs-031-damage-claims-deadline",
+     "hit": true,
+     "top5": [
+      "548",
+      "559d",
+      "573c",
+      "577a",
+      "580a"
+     ]
+    },
+    {
+     "id": "gs-032-landlord-pledge",
+     "hit": true,
+     "top5": [
+      "562",
+      "562a",
+      "562b",
+      "562c",
+      "569"
+     ]
+    },
+    {
+     "id": "gs-033-new-owner-termination",
+     "hit": true,
+     "top5": [
+      "542",
+      "555e",
+      "577a",
+      "580",
+      "580a"
+     ]
+    },
+    {
+     "id": "gs-034-sublet-airbnb",
+     "hit": true,
+     "top5": [
+      "538",
+      "540",
+      "541",
+      "556g",
+      "567"
+     ]
+    },
+    {
+     "id": "gs-035-repair-obligation",
+     "hit": true,
+     "top5": [
+      "535",
+      "536a",
+      "536c",
+      "549",
+      "576b"
+     ]
+    },
+    {
+     "id": "gs-036-rent-offset",
+     "hit": true,
+     "top5": [
+      "556b",
+      "556e",
+      "558",
+      "566b",
+      "566d"
+     ]
     }
    ]
   },
   {
    "backend": "hybrid",
-   "hitrate_k5": 0.8333333333333334,
-   "hits": 5,
-   "applicable": 6,
-   "p95_ms": 15.2,
-   "meets_gate": false,
+   "hitrate_k5": 0.9333333333333333,
+   "hits": 28,
+   "applicable": 30,
+   "p95_ms": 15.1,
+   "meets_gate": true,
    "per_item": [
     {
      "id": "gs-001-notice-period",
@@ -219,10 +722,274 @@
       "566c",
       "568"
      ]
+    },
+    {
+     "id": "gs-012-modernization-notice",
+     "hit": true,
+     "top5": [
+      "555c",
+      "555d",
+      "555e",
+      "559b",
+      "568"
+     ]
+    },
+    {
+     "id": "gs-013-refuse-modernization",
+     "hit": true,
+     "top5": [
+      "555b",
+      "555c",
+      "555d",
+      "555e",
+      "559c"
+     ]
+    },
+    {
+     "id": "gs-014-death-of-tenant",
+     "hit": true,
+     "top5": [
+      "563",
+      "563a",
+      "563b",
+      "564",
+      "580"
+     ]
+    },
+    {
+     "id": "gs-015-flat-sold",
+     "hit": true,
+     "top5": [
+      "566",
+      "566b",
+      "566c",
+      "566e",
+      "567b"
+     ]
+    },
+    {
+     "id": "gs-016-termination-for-rent-increase",
+     "hit": true,
+     "top5": [
+      "542",
+      "555c",
+      "559b",
+      "561",
+      "573"
+     ]
+    },
+    {
+     "id": "gs-017-object-to-termination",
+     "hit": true,
+     "top5": [
+      "542",
+      "568",
+      "573d",
+      "574",
+      "580"
+     ]
+    },
+    {
+     "id": "gs-018-mold-health",
+     "hit": false,
+     "top5": [
+      "542",
+      "555e",
+      "563",
+      "568",
+      "580a"
+     ]
+    },
+    {
+     "id": "gs-019-eviction-unpaid-rent",
+     "hit": true,
+     "top5": [
+      "543",
+      "550",
+      "576",
+      "577a",
+      "580a"
+     ]
+    },
+    {
+     "id": "gs-020-modernization-rent-increase",
+     "hit": true,
+     "top5": [
+      "555b",
+      "556e",
+      "559",
+      "559b",
+      "559c"
+     ]
+    },
+    {
+     "id": "gs-022-terminate-after-rent-increase",
+     "hit": true,
+     "top5": [
+      "542",
+      "555e",
+      "561",
+      "573",
+      "580a"
+     ]
+    },
+    {
+     "id": "gs-023-fixed-term-lease",
+     "hit": true,
+     "top5": [
+      "542",
+      "550",
+      "575",
+      "576",
+      "579"
+     ]
+    },
+    {
+     "id": "gs-024-stay-after-lease-ends",
+     "hit": true,
+     "top5": [
+      "535",
+      "542",
+      "544",
+      "545",
+      "550"
+     ]
+    },
+    {
+     "id": "gs-025-ev-charger",
+     "hit": true,
+     "top5": [
+      "554",
+      "555b",
+      "556",
+      "559f",
+      "578b"
+     ]
+    },
+    {
+     "id": "gs-026-termination-form",
+     "hit": true,
+     "top5": [
+      "542",
+      "550",
+      "568",
+      "574b",
+      "580a"
+     ]
+    },
+    {
+     "id": "gs-027-withhold-rent-belongings",
+     "hit": true,
+     "top5": [
+      "546",
+      "546a",
+      "556b",
+      "562b",
+      "570"
+     ]
+    },
+    {
+     "id": "gs-028-first-refusal",
+     "hit": true,
+     "top5": [
+      "556g",
+      "566",
+      "566b",
+      "570",
+      "577"
+     ]
+    },
+    {
+     "id": "gs-029-utility-cost-split",
+     "hit": true,
+     "top5": [
+      "551",
+      "556",
+      "556a",
+      "556c",
+      "560"
+     ]
+    },
+    {
+     "id": "gs-030-remove-kitchen",
+     "hit": true,
+     "top5": [
+      "539",
+      "552",
+      "562c",
+      "577a",
+      "580a"
+     ]
+    },
+    {
+     "id": "gs-031-damage-claims-deadline",
+     "hit": true,
+     "top5": [
+      "548",
+      "559d",
+      "573c",
+      "577a",
+      "580a"
+     ]
+    },
+    {
+     "id": "gs-032-landlord-pledge",
+     "hit": true,
+     "top5": [
+      "562",
+      "562a",
+      "562b",
+      "562c",
+      "569"
+     ]
+    },
+    {
+     "id": "gs-033-new-owner-termination",
+     "hit": true,
+     "top5": [
+      "542",
+      "555e",
+      "577a",
+      "580",
+      "580a"
+     ]
+    },
+    {
+     "id": "gs-034-sublet-airbnb",
+     "hit": true,
+     "top5": [
+      "538",
+      "540",
+      "541",
+      "556g",
+      "567"
+     ]
+    },
+    {
+     "id": "gs-035-repair-obligation",
+     "hit": true,
+     "top5": [
+      "535",
+      "536a",
+      "536c",
+      "549",
+      "576b"
+     ]
+    },
+    {
+     "id": "gs-036-rent-offset",
+     "hit": true,
+     "top5": [
+      "556b",
+      "556e",
+      "558",
+      "566b",
+      "566d"
+     ]
     }
    ]
   }
  ],
- "winner": "",
+ "winner": "hybrid",
  "decision_rule": "highest hit-rate k=5; within 5pp -> lower p95; tied -> simpler backend"
 }
