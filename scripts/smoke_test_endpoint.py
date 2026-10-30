@@ -46,13 +46,14 @@ def probe_endpoint() -> None:
 
     headers = {"Authorization": f"Bearer {api_key}"} if api_key else {}
 
-    # 1. Reachability
+    # 1. Reachability (some OpenAI-compatible deployments serve /models only
+    # under a versioned path or not at all; chat/completions is the real probe)
     try:
         r = httpx.get(f"{base_url}/models", headers=headers, timeout=30)
-        record("reachability", r.status_code < 500, f"GET /models -> {r.status_code}")
+        reachable = r.status_code < 500 and "text/html" not in r.headers.get("content-type", "")
+        record("reachability", reachable, f"GET /models -> {r.status_code}")
     except httpx.HTTPError as e:
         record("reachability", False, f"unreachable: {e}")
-        return
 
     # 2. Authentication + a real completion
     try:
