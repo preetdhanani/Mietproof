@@ -1,0 +1,37 @@
+[project]
+name = "bgb-rag"
+version = "0.1.0"
+description = "German rental law RAG assistant - English answers with BGB paragraph citations"
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+dependencies = [
+    "fastapi==0.115.6",
+    "uvicorn==0.34.0",
+    "openai==1.59.6",
+    "httpx==0.28.1",
+    "rank-bm25==0.2.2",
+    "sentence-transformers==3.3.1",
+    "ragas==0.2.6",
+    "langfuse==2.57.4",
+    "slowapi==0.1.9",
+    "pydantic==2.10.5",
+    "pydantic-settings==2.7.1",
+    "numpy==2.2.1",
+]
+
+[dependency-groups]
+dev = [
+    "pytest==8.3.4",
+    "ruff==0.9.2",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W", "UP", "B"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

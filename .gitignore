@@ -1,0 +1,19 @@
+.env
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+.ruff_cache/
+dist/
+*.egg-info/
+
+# Model caches (first-run embedding model download ~1 GB)
+.cache/
+models/
+
+# VM artifacts
+deploy/data/
+*.log
+
+# Collections built locally (ingested, not committed)
+data/collections/
