@@ -133,7 +133,8 @@ def probe_endpoint() -> None:
             json={"model": model, "input": "test"},
             timeout=30,
         )
-        record("embeddings route", r.status_code == 200, f"status {r.status_code} (not required - local embeddings)")
+        detail = f"status {r.status_code} (not required - local embeddings)"
+        record("embeddings route", r.status_code == 200, detail)
     except httpx.HTTPError as e:
         record("embeddings route", False, f"error: {e} (not required - local embeddings)")
 
@@ -143,7 +144,11 @@ def probe_corpus_source() -> None:
     url = "https://www.gesetze-im-internet.de/xml/bgb.zip"
     try:
         r = httpx.get(url, timeout=120, follow_redirects=True)
-        record("corpus fetch", r.status_code == 200, f"GET {url} -> {r.status_code}, {len(r.content)} bytes")
+        record(
+            "corpus fetch",
+            r.status_code == 200,
+            f"GET {url} -> {r.status_code}, {len(r.content)} bytes",
+        )
         if r.status_code != 200:
             return
     except httpx.HTTPError as e:
@@ -164,14 +169,22 @@ def probe_corpus_source() -> None:
         has_norm = "<norm" in text
         has_enbez = "enbez" in text
         has_stand = "Stand" in text or "stand" in text.lower()
-        record("per-paragraph structure", has_norm and has_enbez, f"<norm>={has_norm}, enbez={has_enbez}")
+        record(
+            "per-paragraph structure",
+            has_norm and has_enbez,
+            f"<norm>={has_norm}, enbez={has_enbez}",
+        )
         record("stand date present", has_stand, "searched for Stand marker in XML text")
 
         # Absatz encoding: look for (1)/(2) markers inside a paragraph text
         import re
 
         absatz_markers = re.findall(r"\(\d+\)", text)
-        record("absatz markers", len(absatz_markers) > 100, f"{len(absatz_markers)} '(n)' markers found")
+        record(
+            "absatz markers",
+            len(absatz_markers) > 100,
+            f"{len(absatz_markers)} '(n)' markers found",
+        )
     except zipfile.BadZipFile as e:
         record("corpus zip parse", False, f"bad zip: {e}")
 
@@ -184,7 +197,7 @@ def main() -> int:
 
     print("\n=== Summary ===")
     failed = [r for r in RESULTS if not r[1]]
-    for name, ok, detail in RESULTS:
+    for name, ok, _detail in RESULTS:
         print(f"  {'[x]' if ok else '[ ]'} {name}")
     if failed:
         print(f"\n{len(failed)} check(s) failed - see details above.")
