@@ -1,0 +1,11 @@
+{
+ "collection": "collection",
+ "embedder": "intfloat/multilingual-e5-base",
+ "corpus_hash": "a8dcf1896abb2704",
+ "stand_date": "2026-07-23",
+ "chunk_count": 32,
+ "gloss_model": null,
+ "laws": [
+  "BGB"
+ ]
+}

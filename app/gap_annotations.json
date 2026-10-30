@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "topics": [
+    {
+      "topic": "deposit_return_deadline",
+      "keywords": [
+        "deposit",
+        "kaution",
+        "security deposit",
+        "deposit returned",
+        "deposit deadline",
+        "get my deposit back"
+      ],
+      "what_the_statute_regulates": "The BGB regulates how the deposit must be held (separate from the landlord's own assets, § 551) and the landlord's pledge right over the tenant's movable property (§ 562, § 562a-d).",
+      "what_is_governed_elsewhere": "Deadlines for returning the deposit at the end of the tenancy are set by court decisions (case law of the BGH), not by the BGB. Typical court guidance is a few months after handover, but the statute itself is silent."
+    },
+    {
+      "topic": "rent_control_mietspiegel",
+      "keywords": [
+        "mietspiegel",
+        "rent index",
+        "comparative rent",
+        "ortsübliche Miete",
+        "usual local rent"
+      ],
+      "what_the_statute_regulates": "The BGB defines the rent-increase mechanics (§§ 558-559f) and references the ortsübliche Vergleichsmiete (usual local comparative rent).",
+      "what_is_governed_elsewhere": "The Mietspiegel (rent index) itself is a municipal instrument; how a city builds and updates its Mietspiegel is governed by the Mietspiegelverordnung (a federal ordinance) and municipal practice, not by the BGB text."
+    },
+    {
+      "topic": "utility_costs_details",
+      "keywords": [
+        "betriebskosten",
+        "utility bill",
+        "heating bill",
+        "Nebenkosten",
+        "service charge settlement"
+      ],
+      "what_the_statute_regulates": "The BGB regulates that operating costs can be passed on and that annual settlement is due within 12 months (§ 556).",
+      "what_is_governed_elsewhere": "Which cost types count as Betriebskosten, and their caps, are set by the Betriebskostenverordnung (BetrKV), a separate ordinance not contained in the BGB."
+    },
+    {
+      "topic": "local_rent_cap",
+      "keywords": [
+        "mietpreisbremse",
+        "rent control",
+        "rent cap",
+        "capped rent"
+      ],
+      "what_the_statute_regulates": "The BGB contains the Mietpreisbremse mechanics (§§ 556d-556g): in designated areas the initial rent may not exceed the local comparative rent by more than 10 percent.",
+      "what_is_governed_elsewhere": "Which areas are designated (angespannte Wohnungsmärkte) is decided by state ordinances under § 556d Absatz 2 - the designations themselves are not in the BGB."
+    }
+  ]
+}
