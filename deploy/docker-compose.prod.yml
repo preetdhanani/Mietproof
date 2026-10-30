@@ -1,0 +1,51 @@
+# VM deployment composition: app + self-hosted Langfuse + Caddy (TLS).
+# The app's collections and runtime state live on the named volume app-data,
+# selected by ACTIVE_COLLECTION (cutover and rollback are changes to that
+# variable; the previous collection is retained on the same volume).
+include:
+  - langfuse/docker-compose.langfuse.yml
+
+services:
+  app:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    image: bgb-rag-app:latest
+    restart: unless-stopped
+    mem_limit: 3g
+    env_file: ../.env
+    environment:
+      # Inside the compose network the app talks to Langfuse by service name.
+      LANGFUSE_HOST: http://langfuse-web:3000
+    volumes:
+      - app-data:/app/data
+    ports:
+      - "127.0.0.1:8000:8000"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health', timeout=5)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  caddy:
+    image: caddy:2.8.4
+    restart: unless-stopped
+    mem_limit: 300m
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    depends_on:
+      app:
+        condition: service_started
+
+volumes:
+  app-data:
+  caddy-data:
+  caddy-config:
+
+# Docker json-file log rotation with max-size 10m, max-file 3 is configured
+# at the daemon level (/etc/docker/daemon.json) - see deploy/RUNBOOK.md.

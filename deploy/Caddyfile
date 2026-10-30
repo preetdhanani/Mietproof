@@ -1,0 +1,21 @@
+# TLS termination and reverse proxy. Automatic certificate issuance and
+# renewal - removes the 90-day certificate-expiry failure mode with
+# near-zero configuration instead of a certbot maintenance chore.
+# Set DEMO_DOMAIN in the environment (e.g. bgb.example.com).
+
+{$DEMO_DOMAIN:localhost} {
+	# API surface: the FastAPI app
+	reverse_proxy app:8000
+
+	# Langfuse UI (optional, for the author only; comment out to keep private)
+	# handle /langfuse/* {
+	# 	reverse_proxy langfuse-web:3000
+	# }
+
+	encode gzip
+
+	header {
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options "nosniff"
+	}
+}
