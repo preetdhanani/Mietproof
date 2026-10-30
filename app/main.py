@@ -33,6 +33,7 @@ from app.guardrails import (
 )
 from app.llm import LLMError, chat_completion
 from app.pipeline import DISCLAIMER, Pipeline, load_floor
+from app.tracing import build_tracer
 from retrieval.base import load_manifest
 from retrieval.factory import build_retriever
 
@@ -97,12 +98,16 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     )
     _state["pipeline"] = None
     _state["pipeline_error"] = None
+    _state["tracer"] = build_tracer(settings)
     try:
         _state["pipeline"] = _build_pipeline(settings)
     except Exception as exc:  # surfaced via /health/ready, not a crash loop
         logger.error("pipeline init failed: %s", exc)
         _state["pipeline_error"] = str(exc)
     yield
+    tracer = _state.get("tracer")
+    if tracer is not None:
+        tracer.flush()
 
 
 def _build_pipeline(settings) -> Pipeline:
@@ -183,6 +188,18 @@ def _client_ip(request: Request) -> str:
     return request.client.host if request.client else "unknown"
 
 
+def _prompt_version() -> str:
+    """Hash of the versioned prompt artifacts (same scheme as the run log)."""
+    import hashlib
+
+    hasher = hashlib.sha256()
+    prompts = REPO_ROOT / "app" / "prompts"
+    for path in sorted(prompts.glob("*.md")):
+        hasher.update(path.name.encode())
+        hasher.update(path.read_bytes())
+    return hasher.hexdigest()[:12]
+
+
 @app.post("/ask", response_model=AskResponse)
 async def ask(payload: AskRequest, request: Request) -> AskResponse:
     request_id = uuid.uuid4().hex[:12]
@@ -249,6 +266,19 @@ async def ask(payload: AskRequest, request: Request) -> AskResponse:
             "behavior": result.behavior,
         },
     )
+    tracer = _state.get("tracer")
+    if tracer is not None:
+        tracer.trace_request(
+            request_id=request_id,
+            question=payload.question,
+            answer=result.answer,
+            behavior=result.behavior,
+            retrieved=result.retrieved,
+            citations=result.citations,
+            latency_ms=latency_ms,
+            model=_state["settings"].LLM_MODEL,
+            prompt_version=_prompt_version(),
+        )
     return AskResponse(
         answer=result.answer,
         citations=[asdict_citation(c) for c in result.citations],
