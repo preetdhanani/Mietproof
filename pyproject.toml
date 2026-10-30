@@ -3,7 +3,7 @@ name = "bgb-rag"
 version = "0.1.0"
 description = "German rental law RAG assistant - English answers with BGB paragraph citations"
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.12,<3.13"
 license = { text = "MIT" }
 dependencies = [
     "fastapi==0.115.6",
