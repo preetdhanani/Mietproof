@@ -62,7 +62,13 @@ def build_collection(
     paragraphs_path = write_paragraphs(paragraphs, collections_dir / "_staging")
 
     embedder = Embedder(embedder_name)
-    embeddings = embedder.encode_passages([c.chunk_text for c in chunks])
+    # Embed gloss + text when a gloss exists: the English gloss is the
+    # cross-lingual bridge for English queries (the German chunk text alone
+    # matches legal-German vocabulary much better than colloquial English).
+    embed_texts = [
+        (f"{c.gloss_en} | {c.chunk_text}" if c.gloss_en else c.chunk_text) for c in chunks
+    ]
+    embeddings = embedder.encode_passages(embed_texts)
 
     embedder_short = embedder_id(embedder_name)
     version = (

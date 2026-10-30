@@ -1,4 +1,4 @@
-.PHONY: up down ingest ask eval-gate eval-full compare rebuild test lint
+.PHONY: up down ingest ask eval-gate eval-full compare stand-diff rebuild test lint
 
 # Start the app stack (app + deps, no Langfuse by default for local dev)
 up:
@@ -19,6 +19,10 @@ ask:
 # Deterministic tier (no LLM) - the PR gate
 eval-gate:
 	uv run python -m evals.run_eval --tier deterministic
+
+# Stand-diff check: golden items needing re-verification
+stand-diff:
+	uv run python -m evals.stand_diff
 
 # Scheduled RAGAS tier
 eval-full:
