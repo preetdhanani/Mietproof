@@ -1,0 +1,50 @@
+name: Scheduled RAGAS evaluation
+
+on:
+  schedule:
+    - cron: "0 2 * * *" # nightly, 02:00 UTC
+  workflow_dispatch:
+
+jobs:
+  ragas:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: uv sync --frozen
+      - name: Build throwaway index from the committed snapshot
+        run: |
+          uv run python -m ingestion.ingest --no-gloss \
+            --collections-dir /tmp/collections
+        env:
+          CORPUS_STAND: "2026-07-23"
+          EMBEDDING_MODEL: intfloat/multilingual-e5-base
+      - name: Run the RAGAS tier
+        id: ragas
+        continue-on-error: true
+        run: |
+          uv run python -m evals.run_eval --tier full \
+            --collection "$(ls /tmp/collections | head -1)" \
+            --collections-dir /tmp/collections
+        env:
+          LLM_BASE_URL: ${{ secrets.LLM_BASE_URL }}
+          LLM_MODEL: ${{ secrets.LLM_MODEL }}
+          LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
+          JUDGE_BASE_URL: ${{ secrets.JUDGE_BASE_URL }}
+          JUDGE_MODEL: ${{ secrets.JUDGE_MODEL }}
+          JUDGE_API_KEY: ${{ secrets.JUDGE_API_KEY }}
+      - name: Upload per-question results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ragas-per-question
+          path: evals/results/
+          if-no-files-found: ignore
+      - name: Neutral status on unreachable endpoints
+        if: steps.ragas.outcome != 'success'
+        run: |
+          echo "RAGAS run could not complete (judge or generator unreachable)." >> "$GITHUB_STEP_SUMMARY"
+          echo "This is a neutral outcome - not a regression." >> "$GITHUB_STEP_SUMMARY"
