@@ -1,0 +1,228 @@
+{
+ "collection": "bgb__mE5-base__v1",
+ "results": [
+  {
+   "backend": "bm25",
+   "hitrate_k5": 0.0,
+   "hits": 0,
+   "applicable": 6,
+   "p95_ms": 0.6,
+   "meets_gate": false,
+   "per_item": [
+    {
+     "id": "gs-001-notice-period",
+     "hit": false,
+     "top5": [
+      "535",
+      "555b",
+      "556",
+      "559f"
+     ]
+    },
+    {
+     "id": "gs-002-deposit-cap",
+     "hit": false,
+     "top5": [
+      "557",
+      "557b",
+      "558c",
+      "574a",
+      "578b"
+     ]
+    },
+    {
+     "id": "gs-003-rent-reduction-defect",
+     "hit": false,
+     "top5": [
+      "535",
+      "555b",
+      "556",
+      "559f"
+     ]
+    },
+    {
+     "id": "gs-004-normal-wear",
+     "hit": false,
+     "top5": [
+      "535",
+      "555b",
+      "556",
+      "559f"
+     ]
+    },
+    {
+     "id": "gs-005-subletting-permission",
+     "hit": false,
+     "top5": [
+      "535",
+      "555b",
+      "556",
+      "559f"
+     ]
+    },
+    {
+     "id": "gs-010-lease-form",
+     "hit": false,
+     "top5": [
+      "535",
+      "536"
+     ]
+    }
+   ]
+  },
+  {
+   "backend": "dense",
+   "hitrate_k5": 0.8333333333333334,
+   "hits": 5,
+   "applicable": 6,
+   "p95_ms": 39.2,
+   "meets_gate": false,
+   "per_item": [
+    {
+     "id": "gs-001-notice-period",
+     "hit": true,
+     "top5": [
+      "550",
+      "568",
+      "573c",
+      "576",
+      "580a"
+     ]
+    },
+    {
+     "id": "gs-002-deposit-cap",
+     "hit": true,
+     "top5": [
+      "551",
+      "556g",
+      "558",
+      "559c",
+      "562c"
+     ]
+    },
+    {
+     "id": "gs-003-rent-reduction-defect",
+     "hit": true,
+     "top5": [
+      "536",
+      "536b",
+      "536c",
+      "536d",
+      "556c"
+     ]
+    },
+    {
+     "id": "gs-004-normal-wear",
+     "hit": false,
+     "top5": [
+      "555c",
+      "559c",
+      "559d",
+      "577a",
+      "580a"
+     ]
+    },
+    {
+     "id": "gs-005-subletting-permission",
+     "hit": true,
+     "top5": [
+      "537",
+      "540",
+      "553",
+      "566e",
+      "567"
+     ]
+    },
+    {
+     "id": "gs-010-lease-form",
+     "hit": true,
+     "top5": [
+      "538",
+      "550",
+      "558a",
+      "566c",
+      "568"
+     ]
+    }
+   ]
+  },
+  {
+   "backend": "hybrid",
+   "hitrate_k5": 0.8333333333333334,
+   "hits": 5,
+   "applicable": 6,
+   "p95_ms": 15.2,
+   "meets_gate": false,
+   "per_item": [
+    {
+     "id": "gs-001-notice-period",
+     "hit": true,
+     "top5": [
+      "550",
+      "568",
+      "573c",
+      "576",
+      "580a"
+     ]
+    },
+    {
+     "id": "gs-002-deposit-cap",
+     "hit": true,
+     "top5": [
+      "551",
+      "556g",
+      "558",
+      "559c",
+      "562c"
+     ]
+    },
+    {
+     "id": "gs-003-rent-reduction-defect",
+     "hit": true,
+     "top5": [
+      "536",
+      "536b",
+      "536c",
+      "536d",
+      "556c"
+     ]
+    },
+    {
+     "id": "gs-004-normal-wear",
+     "hit": false,
+     "top5": [
+      "555c",
+      "559c",
+      "559d",
+      "577a",
+      "580a"
+     ]
+    },
+    {
+     "id": "gs-005-subletting-permission",
+     "hit": true,
+     "top5": [
+      "537",
+      "540",
+      "553",
+      "566e",
+      "567"
+     ]
+    },
+    {
+     "id": "gs-010-lease-form",
+     "hit": true,
+     "top5": [
+      "535",
+      "538",
+      "550",
+      "566c",
+      "568"
+     ]
+    }
+   ]
+  }
+ ],
+ "winner": "",
+ "decision_rule": "highest hit-rate k=5; within 5pp -> lower p95; tied -> simpler backend"
+}

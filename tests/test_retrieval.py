@@ -88,3 +88,78 @@ def test_empty_query_still_returns_chunks(dense: DenseRetriever) -> None:
 def test_missing_collection_raises(tmp_path: Path) -> None:
     with pytest.raises((ValueError, FileNotFoundError)):
         DenseRetriever(tmp_path, model=None)
+
+
+# --- BM25 and hybrid backends (build step 4) ---
+
+
+def test_bm25_conforms_to_protocol() -> None:
+    from retrieval.bm25 import BM25Retriever
+
+    assert isinstance(BM25Retriever(FIXTURE), Retriever)
+
+
+def test_hybrid_conforms_to_protocol(st_model) -> None:
+    from ingestion.embed import Embedder
+    from retrieval.hybrid import HybridRetriever
+
+    wrapper = Embedder.__new__(Embedder)
+    wrapper.model_name = "intfloat/multilingual-e5-base"
+    wrapper._model = st_model
+    assert isinstance(HybridRetriever(FIXTURE, model=wrapper), Retriever)
+
+
+def test_bm25_german_query_hits_relevant_paragraph() -> None:
+    # BM25 works when the query shares vocabulary with the corpus.
+    from retrieval.bm25 import BM25Retriever
+
+    bm25 = BM25Retriever(FIXTURE)
+    hits = bm25.retrieve("Kündigungsfrist Mietverhältnis kündigen", k=5)
+    paragraphs = [h.paragraph for h in hits]
+    assert "573c" in paragraphs or "542" in paragraphs
+
+
+def test_hybrid_retrieval_merges_both_backends(st_model) -> None:
+    from ingestion.embed import Embedder
+    from retrieval.hybrid import HybridRetriever
+
+    wrapper = Embedder.__new__(Embedder)
+    wrapper.model_name = "intfloat/multilingual-e5-base"
+    wrapper._model = st_model
+    hybrid = HybridRetriever(FIXTURE, model=wrapper)
+    hits = hybrid.retrieve("How much notice must I give before ending my lease?", k=5)
+    assert len(hits) == 5
+    assert [h.index for h in hits] == [1, 2, 3, 4, 5]
+    assert hits[0].score >= hits[-1].score
+
+
+def test_compare_decision_rule() -> None:
+    from retrieval.compare import decide
+
+    results = [
+        {"backend": "bm25", "hitrate_k5": 0.0, "p95_ms": 1.0, "meets_gate": False},
+        {"backend": "dense", "hitrate_k5": 0.9, "p95_ms": 40.0, "meets_gate": True},
+        {"backend": "hybrid", "hitrate_k5": 0.9, "p95_ms": 15.0, "meets_gate": True},
+    ]
+    # Tie on hit-rate, hybrid has lower p95 -> hybrid wins.
+    assert decide(results) == "hybrid"
+
+
+def test_compare_no_backend_ships_below_gate() -> None:
+    from retrieval.compare import decide
+
+    results = [
+        {"backend": "dense", "hitrate_k5": 0.5, "p95_ms": 40.0, "meets_gate": False},
+    ]
+    assert decide(results) == ""
+
+
+def test_compare_simplicity_tiebreak() -> None:
+    from retrieval.compare import decide
+
+    results = [
+        {"backend": "dense", "hitrate_k5": 0.9, "p95_ms": 15.0, "meets_gate": True},
+        {"backend": "hybrid", "hitrate_k5": 0.9, "p95_ms": 15.0, "meets_gate": True},
+    ]
+    # Same rate, same latency -> the simpler backend (dense) wins.
+    assert decide(results) == "dense"
