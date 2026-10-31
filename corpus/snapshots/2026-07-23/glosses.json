@@ -1,526 +1,526 @@
 {
  "535": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "This section sets out the core obligations of a lease: the landlord must hand over the rented property in a condition fit for the agreed use, keep it that way during the tenancy, and bear any charges on the property, while the tenant must pay the agreed rent.",
   "hash": "e7e6ddef1e28469a",
   "model": "lisa-pro"
  },
  "536": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "If a rented property has a defect that makes it unfit for its intended use (or becomes so during the tenancy), the tenant doesn't have to pay rent for that period, or pays only a proportionally reduced rent if the property is still partly usable; minor defects don't count, rent reductions from energy-efficiency upgrades are ignored for the first three months, and tenants of housing can't contract out of these protections.",
   "hash": "84f5fd002709c039",
   "model": "lisa-pro"
  },
  "536a": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "If a rental property has a defect the landlord is responsible for—whether it existed at signing, arose later due to a cause the landlord must answer for, or the landlord is late fixing it—the tenant can claim damages in addition to the rent reduction rights under § 536. The tenant may also fix the defect themselves and get their necessary costs reimbursed if the landlord is in delay with repairs or the defect must be fixed immediately to preserve the property.",
   "hash": "23acd1a51accf9dc",
   "model": "lisa-pro"
  },
  "536b": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "A tenant who knew about a defect in the rental property when signing the lease loses the rights to rent reduction and damages for that defect, unless the landlord fraudulently concealed it; a tenant who missed the defect through gross negligence keeps those rights only in the same case of fraudulent concealment; and a tenant who accepts the defective property despite knowing the defect keeps those rights only if they expressly reserved them upon acceptance.",
   "hash": "a31951e9555c5192",
   "model": "lisa-pro"
  },
  "536c": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "Requires tenants to promptly notify the landlord of any defects that appear during the tenancy, of needed protective measures against unforeseen dangers, and of third parties claiming rights in the property. If the tenant fails to give notice, they must compensate the landlord for resulting damage and lose the right to reduce rent, claim damages, or terminate for cause—except for problems the landlord could not have fixed anyway despite the missing notice.",
   "hash": "4c19ab3982ef8cdc",
   "model": "lisa-pro"
  },
  "536d": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "This provision stops a landlord from relying on a contract clause that excludes or limits the tenant's rights over defects if the landlord fraudulently concealed the defect.",
   "hash": "bd74de2c2f9630e3",
   "model": "lisa-pro"
  },
  "537": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "A tenant must keep paying rent even if personal circumstances prevent them from using the rented property, though the landlord must credit any savings or benefits gained from renting the space to someone else. However, if the landlord has already let someone else use the property, the tenant owes no rent for that period.",
   "hash": "c119c3657fe582db",
   "model": "lisa-pro"
  },
  "538": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "A tenant isn't responsible for normal wear and tear or changes to the rental property that result from using it as intended under the lease.",
   "hash": "8c624cbd97ff2874",
   "model": "lisa-pro"
  },
  "539": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "A tenant can get reimbursed by the landlord for expenses they made on the rental property that the landlord isn't already required to cover, and the tenant may remove fixtures or fittings they installed themselves when the tenancy ends.",
   "hash": "ba7cb40cc2236339",
   "model": "lisa-pro"
  },
  "540": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "A tenant may not let a third party use the rented property, including subletting it, without the landlord's permission; if the landlord refuses without good reason, the tenant can terminate the lease with the statutory notice period. The tenant remains responsible for any fault of the third party in using the property, even when permission was granted.",
   "hash": "b090e867fd2d51d5",
   "model": "lisa-pro"
  },
  "541": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "If a tenant keeps using the rented property in a way that violates the lease even after the landlord has warned them, the landlord can sue to make the tenant stop.",
   "hash": "3ca6a11f1b629ef2",
   "model": "lisa-pro"
  },
  "542": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "This section governs when a lease ends: if no fixed term was agreed, either party may terminate it according to the statutory rules; if a fixed term was agreed, the lease ends automatically when that term expires, unless it is terminated early for extraordinary legal reasons or extended.",
   "hash": "a02554ae77ec6ec4",
   "model": "lisa-pro"
  },
  "543": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "Either party to a lease can terminate it immediately without notice for good cause, meaning a situation where continuing the tenancy until the next regular termination date would be unreasonable considering all circumstances and both parties' interests. The law lists examples of good cause, including the landlord failing to hand over the property or taking it back, the tenant seriously endangering the property or subletting it without permission, and the tenant falling significantly behind on rent; rent arrears cases require a warning first unless the landlord has already been paid, and most other breaches require a prior warning or a chance to cure unless that would obviously be futile or immediate termination is otherwise justified.",
   "hash": "b92f32fc3d746918",
   "model": "lisa-pro"
  },
  "544": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "Limits rental contracts to a maximum effective term of 30 years: after 30 years, either party may terminate with the statutory notice period, unless the lease was made for the lifetime of the landlord or tenant.",
   "hash": "8a8beb293ceec073",
   "model": "lisa-pro"
  },
  "545": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "If a tenant keeps using the rented property after the lease term ends, the tenancy continues indefinitely, unless either party objects within two weeks (the clock starts when the tenant continues use, or when the landlord learns of it).",
   "hash": "8d5caf60318a1043",
   "model": "lisa-pro"
  },
  "546": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "This provision requires the tenant to return the rented property once the tenancy ends. If the tenant let someone else use the property, the landlord can also demand its return directly from that third party.",
   "hash": "bd4c8c3d4283b617",
   "model": "lisa-pro"
  },
  "546a": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "If a tenant fails to return the rented property after the tenancy ends, the landlord can claim compensation equal to the agreed rent (or the local market rate for comparable properties) for each period the property is withheld, and can also pursue any additional damages on top of that.",
   "hash": "14facd7fa4ed7343",
   "model": "lisa-pro"
  },
  "547": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "Requires a landlord to repay rent paid in advance for any period after the tenancy has ended, with interest from receipt; if the landlord isn't at fault for the tenancy ending, repayment follows unjust enrichment rules. For residential tenancies, tenants cannot contract out of this protection.",
   "hash": "8bd3f3f837dd9e1d",
   "model": "lisa-pro"
  },
  "548": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "This paragraph sets short six-month time limits for claims arising at the end of a lease: the landlord has six months from getting the property back to claim compensation for damage or deterioration (and these claims expire along with the claim for return of the property), while the tenant has six months after the lease ends to claim reimbursement of expenses or permission to remove fixtures they installed.",
   "hash": "48e4ea03caa9daab",
   "model": "lisa-pro"
  },
  "548a": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "§ 548a BGB extends the rules on renting physical things to the rental of digital products, so leases of digital products are treated like leases of goods.",
   "hash": "4938e0d16a99a16c",
   "model": "lisa-pro"
  },
  "549": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "This provision determines which parts of German tenancy law apply to residential leases. It applies the general lease rules to residential tenancies, but exempts certain leases—temporary rentals, rooms in the landlord's own home, public-authority or welfare-organization transitional housing, and student or youth dormitories—from key tenant protections such as rent caps in tight housing markets, rent increases, and protection against termination.",
   "hash": "8cda30ee865a153c",
   "model": "lisa-pro"
  },
  "550": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "If a lease is made for more than one year but not in writing, it is treated as open-ended, and it cannot be terminated before one year has passed since the tenant was given the property.",
   "hash": "19d0dd0626605054",
   "model": "lisa-pro"
  },
  "551": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "Caps the security deposit a landlord may require at three months' rent (excluding operating costs), lets the tenant pay it in three monthly installments, and requires cash deposits to be invested separately from the landlord's assets at interest that belongs to the tenant. Any agreement to the tenant's disadvantage on these points is void.",
   "hash": "fdba9a908d74edb7",
   "model": "lisa-pro"
  },
  "552": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "§ 552 BGB lets the landlord stop the tenant from removing fixtures they installed by paying reasonable compensation, unless the tenant has a legitimate interest in taking them; any contract clause waiving the tenant's removal right is valid only if it provides fair compensation.",
   "hash": "192dd6509ddb8a08",
   "model": "lisa-pro"
  },
  "553": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "A tenant who develops a legitimate interest after signing the lease—such as needing to take in a relative or partner—can demand the landlord's permission to sublet part of the home to a third party. The landlord may refuse only for specific reasons (an important ground against the third party, overcrowding, or other unreasonable burden), and may condition permission on a reasonable rent increase; any contract clause putting the tenant in a worse position is void.",
   "hash": "9c52e23d66cd2de9",
   "model": "lisa-pro"
  },
  "554": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "A tenant may demand the landlord's permission to make structural changes to the rental property that serve accessibility for people with disabilities, charging electric vehicles, burglary protection, or plug-in solar devices, unless this would be unreasonable for the landlord even considering the tenant's interests; the tenant may offer extra security for the change, and agreements to the tenant's disadvantage are invalid.",
   "hash": "8e91602e1e707585",
   "model": "lisa-pro"
  },
  "555": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "§ 555 BGB makes any contractual penalty that a landlord requires a tenant to pay invalid and unenforceable.",
   "hash": "623eeda0eca74be7",
   "model": "lisa-pro"
  },
  "555a": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "§ 555a BGB requires tenants to tolerate necessary maintenance and repair work on the rental property, with the landlord required to give reasonable advance notice unless the work is minor or urgent; the landlord must also reimburse the tenant for reasonable expenses caused by such work, and any agreement putting the tenant in a worse position is void.",
   "hash": "96a141670f92570a",
   "model": "lisa-pro"
  },
  "555b": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "This provision defines what counts as a modernization measure in a tenancy: structural changes that save energy, install a new heating system, save non-renewable energy or protect the climate, reduce water use, increase the rental property's usefulness, connect the property to fiber-optic internet for the first time, permanently improve general living conditions, remedy circumstances the landlord isn't responsible for (if not mere maintenance), or create new living space.",
   "hash": "9852983fb8df6f95",
   "model": "lisa-pro"
  },
  "555c": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "This provision requires landlords to announce modernization work to tenants in text form at least three months before it starts, stating what the work involves, when it will begin and how long it will last, and any expected rent increase and future operating costs. Minor modernizations with only negligible impact on the property and negligible rent increases are exempt, and any agreement giving the tenant less protection is invalid.",
   "hash": "fadc200116a9d666",
   "model": "lisa-pro"
  },
  "555d": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "This provision requires tenants to tolerate modernization work by their landlord, but excuses them when the work would cause a hardship that cannot be justified even considering the landlord's interests, other tenants, and energy and climate concerns. It sets a deadline—ending one month after the tenant receives the modernization notice—for the tenant to report hardship grounds in text form, with rules for late or unreported objections and for cases where the landlord failed to include the required warning in the notice, and it bars any agreement that puts the tenant in a worse position.",
   "hash": "e4f732189a75a0b7",
   "model": "lisa-pro"
  },
  "555e": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "This provision gives tenants a special right to terminate their lease early after receiving notice of modernization work: they can end the tenancy as of the end of the month after next, provided they give notice by the end of the month following the announcement. Agreements that restrict this right to the tenant's disadvantage are invalid.",
   "hash": "8770dbc1399c61ef",
   "model": "lisa-pro"
  },
  "555f": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "§ 555f BGB allows landlords and tenants to make agreements after the lease is signed about maintenance or modernization work, covering how and when the work is done, the tenant's rights to remedies and reimbursement, and what the future rent will be.",
   "hash": "6e9c658fac66ba9f",
   "model": "lisa-pro"
  },
  "556": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "This provision lets landlords and tenants agree that the tenant pays ongoing operating costs (like heating, water, and maintenance of common facilities), either as a flat rate or as advance payments, which must be reasonable and settled annually. It sets strict deadlines: the landlord must deliver the annual statement within 12 months of the billing period or lose the right to claim any shortfall, and the tenant has 12 months after receiving the statement to raise objections. It also requires landlords to let tenants inspect the underlying receipts (possibly electronically), limits when tenants must bear fiber-optic connection fees, and voids any agreement that puts the tenant in a worse position than these rules allow.",
   "hash": "d23ceafd2666d0a1",
   "model": "lisa-pro"
  },
  "556a": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "This section sets the default rules for allocating operating costs between landlord and tenant: unless the parties agree otherwise, costs are divided according to each tenant's share of living space, but costs that depend on measured consumption or usage (like heating or water) must be allocated according to actual measured use. The landlord may switch to a consumption-based allocation for the future by written notice before a new billing period begins, reducing the rent if costs were previously included in it; for rented condominium units, costs follow the owners' allocation scheme unless that would be unreasonable, and any tenant-disadvantaging deviation from these rules is invalid.",
   "hash": "49579c60093661f3",
   "model": "lisa-pro"
  },
  "556b": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "This provision sets when rent is due — at the start of each payment period, no later than the third business day — and gives tenants a right to offset or withhold rent payments against certain claims (such as compensation for defects or overpaid rent), provided they notify the landlord in text form at least one month before the rent is due. Any contract clause restricting these tenant rights is invalid.",
   "hash": "d3d7344feb693b71",
   "model": "lisa-pro"
  },
  "556c": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "This provision governs when a landlord may switch a rental property from self-supplied heat or hot water to delivery by an independent commercial heat supplier, and requires the tenant to pay the resulting heat supply costs as part of the operating costs only if the new supply is more efficient and does not cost more than the previous self-supply. The landlord must announce the switch to the tenant in text form at least three months in advance, and the federal government is authorized to issue regulations on heat supply contracts and the requirements for such switches, with agreements to the tenant's disadvantage being invalid.",
   "hash": "8d348e8d3af7b22b",
   "model": "lisa-pro"
  },
  "556d": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "This section caps the initial rent for new residential tenancies in designated tight housing markets at no more than 10% above the local comparative rent. It empowers state governments to designate such areas by regulation—based on factors like rapidly rising rents, high rent burdens, population growth without new construction, or low vacancy with high demand—and requires these regulations to expire by December 31, 2029 and include a justification of the facts and the measures planned to relieve the housing shortage.",
   "hash": "ff6ba5ab2c3bd310",
   "model": "lisa-pro"
  },
  "556e": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "This provision sets two exceptions to the rent cap for re-letting: a landlord may charge the new tenant up to the rent the previous tenant last paid (ignoring rent reductions and any rent increases agreed in the final year of that tenancy), and if the landlord carried out modernization work in the three years before the new tenancy began, the permissible rent may be increased by the amount a rent increase for that work would have produced, calculated from the local comparative rent as it would have stood without the modernization.",
   "hash": "6891de37b3de974d",
   "model": "lisa-pro"
  },
  "556f": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "This provision carves out exceptions to the rent cap rules: dwellings first occupied and rented out after October 1, 2014 are exempt from the comparative rent cap, and both the rent cap and the rent reduction right do not apply to the first letting of a dwelling after a comprehensive modernization.",
   "hash": "c9ab149300b4f0d1",
   "model": "lisa-pro"
  },
  "556g": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "This section makes any agreement that disadvantages the tenant under this subchapter invalid, and requires the landlord to return rent overpaid as a result. It also obliges the landlord to proactively inform the tenant of certain facts (such as the previous rent or first-time letting status) that justify a higher rent — if the landlord fails to do so properly, they cannot rely on that higher rent until the information is properly supplied (with a two-year waiting period after late correction). Finally, the tenant can only reclaim rent not owed if they first formally object to the violation (generally within 30 months of the tenancy starting), and all relevant statements must be made in text form.",
   "hash": "fd6ff5a553caefca",
   "model": "lisa-pro"
  },
  "557": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "This provision lets landlords and tenants agree to rent increases during the tenancy, including stepped or index-linked rent arrangements. Otherwise, the landlord can only demand increases under the statutory procedures in §§ 558–560, and any agreement that puts the tenant at a disadvantage is invalid.",
   "hash": "c5146762631d3f9d",
   "model": "lisa-pro"
  },
  "557a": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "This provision governs stepped rents, where the parties agree in writing in advance to rent increases at set intervals, with each amount stated as a fixed sum. Each rent level must stay in place for at least one year, other statutory rent increases are barred while a stepped-rent agreement is in force, the tenant's right to terminate can be suspended for up to four years, and the rent cap rules apply to each step based on when that step's first rent falls due.",
   "hash": "5b893374e8d63028",
   "model": "lisa-pro"
  },
  "557b": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "§ 557b BGB lets landlords and tenants agree in writing to tie the rent to the official cost-of-living index published by the Federal Statistical Office. The rent must stay unchanged for at least one year at a time, rent increases under §§ 558 and most of §§ 559–560 are barred (with narrow exceptions for certain building measures), any adjustment must be made in text form stating the index change and the new rent amount, and the new rent takes effect the month after next after notice is received. Rules on rent caps (§§ 556d–556g) apply only to the initial rent, and any term deviating to the tenant's disadvantage is invalid.",
   "hash": "c5de67ab3e876ef6",
   "model": "lisa-pro"
  },
  "558": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "A landlord may demand the tenant's consent to raise the rent up to the local comparative rent, but only if the rent has been unchanged for 15 months, no earlier than one year after the last increase, and—subject to exceptions—no more than 20% (or 15% in designated tight housing markets) within three years.",
   "hash": "d90e4b5006298e25",
   "model": "lisa-pro"
  },
  "558a": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "§ 558a BGB governs how a landlord must present a rent increase request: it must be given to the tenant in text form and supported by a justification, such as a rent index, a rent database, an expert appraisal, or comparable rents (naming three comparable apartments suffices). If a qualified rent index covers the apartment, the landlord must disclose those figures even when relying on another justification, and if no valid rent index exists at the time, an outdated one or one from a comparable municipality may be used; agreements to the tenant's disadvantage are invalid.",
   "hash": "9e558503f9a4d13a",
   "model": "lisa-pro"
  },
  "558b": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "This section sets the deadlines for a tenant's response to a rent increase request: if the tenant agrees, the higher rent is owed starting the third month after the request was received; if the tenant hasn't agreed within two months, the landlord can sue for consent, but must file suit within three further months. It also allows the landlord to fix a defective rent increase request during the lawsuit, gives the tenant a fresh two-month consent period in that case, and voids any agreement that puts the tenant in a worse position.",
   "hash": "f9561dd7a5fc4628",
   "model": "lisa-pro"
  },
  "558c": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "This provision defines what a rent index (Mietspiegel) is — a table of local comparative rents prepared or recognized by the authorities or jointly by landlord and tenant representatives — and requires that such indexes be created for larger municipalities, updated every two years, and published. It also authorizes the federal government, with Bundesrat approval, to issue regulations on the content, preparation, and updating of rent indexes.",
   "hash": "fc7ee43eac792b66",
   "model": "lisa-pro"
  },
  "558d": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "This section defines what counts as a \"qualified rent index\" (qualifizierter Mietspiegel): a rent table prepared using recognized scientific methods and officially approved either by the responsible state authority or jointly by landlord and tenant associations. If these requirements are met, the rent levels shown in the index are presumed to reflect the customary local rent. The index must be adjusted to market developments every two years (using a sample survey or the federal cost-of-living index) and fully redrawn every four years.",
   "hash": "495e8648a2f1c316",
   "model": "lisa-pro"
  },
  "558e": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "§ 558e BGB governs rent databases: continuously maintained collections of rent data, kept or recognized by the municipality or jointly by landlord and tenant interest groups, from which information can be obtained to determine the locally customary comparative rent for individual apartments.",
   "hash": "3b658618377969b9",
   "model": "lisa-pro"
  },
  "559": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "This provision lets a landlord raise the rent after modernization work by up to 8% of the costs per year, capped at €3 per square meter (€2 for cheaper flats) within six years, with stricter caps for heating installations. The increase is barred if it would impose an undue hardship on the tenant, and agreements to the tenant's disadvantage are invalid.",
   "hash": "69cfa420b8594bfe",
   "model": "lisa-pro"
  },
  "559a": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "This provision governs how subsidies and loans from third parties or public funds reduce the rent increase a landlord may claim after modernization work. Costs covered by grants don't count toward the increase at all; subsidized loans reduce it by the annual value of the interest savings; and where funding can't be traced to specific apartments, it's divided proportionally. Any agreement to the tenant's disadvantage is void.",
   "hash": "c1ad400d2a0ce1a4",
   "model": "lisa-pro"
  },
  "559b": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "A landlord must notify the tenant of a rent increase in writing, showing how the increase was calculated from the actual modernization costs; the higher rent only becomes payable starting three months after the tenant receives this notice (or nine months if the landlord failed to properly announce the works beforehand or the actual increase exceeds the announced one by more than 10 percent). Agreements to the tenant's disadvantage are invalid.",
   "hash": "2b3252d557463e5d",
   "model": "lisa-pro"
  },
  "559c": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "This section lets landlords use a simplified procedure to raise rent after modernization work when the costs per apartment are 10,000 euros or less: a flat 30 percent is deducted for maintenance-type costs, certain detailed calculation and apportionment rules don't apply, and the landlord must state in the rent increase notice that the simplified procedure is being used. If the simplified procedure is used, the landlord cannot make further rent increases under the standard modernization rules for five years, except where the work was legally required (and the obligation was unknown at the time) or ordered by a condominium owners' resolution passed at least two years later.",
   "hash": "9e015459402c793a",
   "model": "lisa-pro"
  },
  "559d": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "§ 559d BGB creates a legal presumption that a landlord has breached his duties if he fails to start an announced construction work within twelve months, the announced rent increase would at least double the rent, the work causes significant unnecessary burdens on the tenant, or the work is abandoned for more than twelve months; the landlord can rebut this presumption by showing a comprehensible objective reason for his conduct.",
   "hash": "c4db4b3f1f289793",
   "model": "lisa-pro"
  },
  "559e": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "This section lets a landlord raise the rent after installing or upgrading a heating system: the increase is 10% of the landlord's own costs (after subtracting any public subsidies received), and if no subsidy was granted despite qualifying, the normal modernization rent-increase rules apply instead. The increase is capped at 0.50 euros per square meter of living space over six years, must stay within the general rent-increase limits, and tenants cannot contract out of these protections.",
   "hash": "fbefef45f6eaf3ca",
   "model": "lisa-pro"
  },
  "559f": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "This provision limits a landlord's right to raise rent after installing a heat pump: the landlord may claim the full modernization-related rent increase only if a certified contractor proves the heat pump achieves a seasonal performance factor of at least 2.5 (measured under VDI 4650 standards), with proof waived for newer, well-insulated, or low-temperature-heated buildings; without that proof, the landlord may only count half of the installation costs when calculating the rent increase.",
   "hash": "81c82cfe0837f7e1",
   "model": "lisa-pro"
  },
  "560": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "Governs changes in operating costs when rent includes a flat-rate charge for them: the landlord may pass on cost increases to the tenant by written notice (provided the contract allows it and the notice explains the reason), with the increase generally taking effect from the month after next; cost decreases must be passed on to the tenant, and either party may adjust agreed advance payments to a reasonable level after an annual settlement.",
   "hash": "f5cd5cb15eda72a9",
   "model": "lisa-pro"
  },
  "561": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "If a landlord demands a rent increase, the tenant can terminate the lease early by giving notice within two months of receiving the demand, effective at the end of the following month; if the tenant does so, the rent increase never takes effect. Any agreement that takes this special termination right away from the tenant is invalid.",
   "hash": "3d6e1c2ebb979cb2",
   "model": "lisa-pro"
  },
  "562": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "The landlord has a lien on the tenant's belongings brought into the rented property to secure claims arising from the tenancy, but not on items that are legally protected from seizure. The lien cannot be used to secure compensation claims not yet due or rent beyond the current and following rental year.",
   "hash": "4ea5827073e24603",
   "model": "lisa-pro"
  },
  "562a": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "§ 562a BGB governs when the landlord's lien expires: it ends once the tenant's belongings are removed from the property, unless the landlord didn't know about it or objected. The landlord can't object if the removal fits ordinary living circumstances (like moving personal items) or if what remains is clearly enough to cover what the tenant owes.",
   "hash": "061e597e1b5c6cc4",
   "model": "lisa-pro"
  },
  "562b": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "This provision gives a landlord the right to stop a tenant from removing items subject to the landlord's lien, to take possession of them when the tenant moves out, and to demand their return if they were removed without the landlord's knowledge or over the landlord's objection. However, the lien expires one month after the landlord learns of the removal unless the landlord has asserted this claim in court before then.",
   "hash": "a5798b71856f0aa3",
   "model": "lisa-pro"
  },
  "562c": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "§ 562c BGB governs how a tenant can prevent the landlord from enforcing a lien on the tenant's property: by providing security, the tenant can release any individual item from the lien up to its value.",
   "hash": "6df9585e53f5eef2",
   "model": "lisa-pro"
  },
  "562d": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "If a third-party creditor seizes (attaches) a tenant's item that is subject to the landlord's lien, the landlord cannot enforce that lien against the seizing creditor for rent owed more than one year before the seizure.",
   "hash": "da19df0ff78645fe",
   "model": "lisa-pro"
  },
  "563": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "When a tenant dies, the spouse or civil partner sharing the household with them automatically takes over the tenancy; if not, children or other household members (including long-term cohabitants) step in instead. Anyone who takes over can decline within a month of learning of the death, the landlord can terminate for good cause within a month of the takeover, and contracts to the contrary cannot disadvantage the tenant or those entitled to take over.",
   "hash": "757c41ed03e99dbe",
   "model": "lisa-pro"
  },
  "563a": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "When several people jointly rent a home and one of them dies, the tenancy automatically continues with the surviving tenants. The survivors may terminate the tenancy with ordinary notice within one month of learning of the death, and any agreement taking away this right to their disadvantage is invalid.",
   "hash": "0923b79314500e15",
   "model": "lisa-pro"
  },
  "563b": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "This provision governs liability when someone joins or continues a deceased tenant's lease: those who entered the tenancy under § 563 or continued it under § 563a are jointly liable with the heir for debts the tenant incurred before death, must hand over to the heir any rent savings or benefits they gain from rent the tenant prepaid, and can be required by the landlord to provide a security deposit if the deceased tenant left none.",
   "hash": "529134cff448cf11",
   "model": "lisa-pro"
  },
  "564": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "If no one entitled to take over the tenancy does so after the tenant's death, the lease passes to the tenant's heir, but both the heir and the landlord may then terminate it with legal notice within one month of learning of the death and that no takeover or continuation has occurred.",
   "hash": "39015d5c463467f8",
   "model": "lisa-pro"
  },
  "565": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "When a tenant is contractually allowed to sublet residential space commercially to a third party, the landlord automatically steps into the tenant's rights and obligations toward that third party when the main tenancy ends. If the landlord then enters into a new commercial subletting arrangement, the tenant takes over the previous party's position in the relationship with the third party, and the statutory protections for subtenants apply — any agreement to the third party's disadvantage is void.",
   "hash": "5fd596b56f715ef5",
   "model": "lisa-pro"
  },
  "566": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "If rented housing is sold after the tenant has moved in, the buyer automatically steps into the landlord's rights and duties under the lease for as long as they own the property. If the buyer fails to meet these obligations, the original landlord remains liable for the resulting damage like a guarantor who has waived the right to demand the tenant first pursue the buyer; however, once the landlord notifies the tenant of the ownership change, the landlord is released from this liability unless the tenant terminates the lease at the earliest permitted date.",
   "hash": "e49c6c0655bbf5f1",
   "model": "lisa-pro"
  },
  "566a": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "§ 566a BGB governs rental security deposits when rented residential property is sold: the buyer steps into the seller's rights and obligations regarding the tenant's deposit, and if the tenant cannot recover the deposit from the buyer when the tenancy ends, the original landlord remains liable to return it.",
   "hash": "b416270f24143866",
   "model": "lisa-pro"
  },
  "566b": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "This provision governs advance dispositions of rent made by the landlord before ownership of the property passes to someone else. Such a disposition remains effective for the rent of the month in which ownership transfers (and, if the transfer occurs after the 15th of the month, also for the following month's rent), and dispositions covering later periods bind the new owner only if the new owner knew of them when ownership passed.",
   "hash": "79565f8f41893a62",
   "model": "lisa-pro"
  },
  "566c": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "This provision governs how rent payments and other rent-related agreements between tenant and landlord affect the new owner after the property is sold. Payments the tenant makes before learning of the ownership change are effective against the new owner for the current month (and, if the tenant learns of the sale after the 15th of the month, for the following month as well), but any rent deal made after the tenant knows of the sale is not binding on the new owner.",
   "hash": "94ee85a9d16756bb",
   "model": "lisa-pro"
  },
  "566d": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "§ 566d BGB lets a tenant offset claims they hold against the landlord against rent owed to a new owner of the property, but only if the tenant acquired that counterclaim before learning of the ownership change, or if it became due no later than the rent itself.",
   "hash": "78046a3c46dd5b6d",
   "model": "lisa-pro"
  },
  "566e": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "This provision deals with a landlord telling the tenant that the rented property has been sold to someone else: once the landlord makes this announcement, the tenant may pay rent to the named \"new owner\" and the landlord must accept that as valid, even if the sale never actually happened or was invalid. The landlord can only withdraw the announcement if the person named as the new owner agrees.",
   "hash": "2a1e6e9ab2b21f61",
   "model": "lisa-pro"
  },
  "567": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "If the landlord encumbers the rented dwelling with a third party's right after handing it over, the rules on third-party rights over leased property apply: if the tenant loses contractual use of the dwelling, the tenant can assert the statutory remedies, and if the right merely restricts that use, the third party must refrain from exercising it to the extent it would interfere.",
   "hash": "2605322671ae1c11",
   "model": "lisa-pro"
  },
  "567a": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "This provision extends the rules on a buyer or encumbrance-holder stepping into the landlord's obligations to cases where the property was sold or burdened before the tenant moved in, provided the acquirer promised the landlord to fulfill the lease obligations.",
   "hash": "58dadac634e624eb",
   "model": "lisa-pro"
  },
  "567b": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "This provision covers what happens when the new owner of rented housing resells the property or encumbers it (e.g., with a mortgage): the rules on the buyer stepping into the landlord's position and the original landlord's liability if the new owner fails to meet the lease obligations apply again to the next buyer in the same way.",
   "hash": "ec6160b1d9dcd358",
   "model": "lisa-pro"
  },
  "568": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "This section requires that a notice terminating a tenancy be made in writing (text form), and it recommends that the landlord inform the tenant about the possibility, form, and deadline for objecting to the termination on hardship grounds under §§ 574–574b.",
   "hash": "4156b665e087dfc8",
   "model": "lisa-pro"
  },
  "569": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "This section lets a tenant terminate a residential lease without notice when the apartment seriously endangers their health—even if they knew of the danger when signing—and lets either party do so when the other persistently disrupts the peace of the building or when the tenant is behind on the required security deposit by an amount equal to two months' rent. It also sets out when rent arrears count as substantial enough for immediate termination, gives the tenant a two-month cure window after an eviction suit is filed (with limits on repeat use), bars termination for arrears shortly after a rent-increase judgment, requires stating the ground in the termination letter, and voids any contract terms that weaken these tenant protections.",
   "hash": "1bd07bb4dd723769",
   "model": "lisa-pro"
  },
  "570": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "§ 570 BGB provides that a tenant cannot withhold returning the rented property at the end of the tenancy on the grounds that the landlord owes them money or owes them something else.",
   "hash": "d8937c9203b6bcf6",
   "model": "lisa-pro"
  },
  "571": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "§ 571 BGB governs additional damages a landlord may claim when a tenant fails to return residential premises after the tenancy ends. The landlord can only claim such damages if the tenant is at fault for not returning the property, and only to the extent fairness requires compensation. The rule does not apply if the tenant gave notice. If a court grants the tenant a period to vacate, the tenant owes no further damages for the time between the end of the tenancy and the end of that period. Agreements to the tenant's disadvantage are void.",
   "hash": "bbc0b584091bf22b",
   "model": "lisa-pro"
  },
  "572": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "§ 572 BGB prevents landlords from relying on contract clauses that give them a right to withdraw from the tenancy after handing over the dwelling, or that make the tenancy end automatically on the occurrence of a condition, if either would disadvantage the tenant.",
   "hash": "3a38c4d797331b9f",
   "model": "lisa-pro"
  },
  "573": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "A landlord can only terminate a residential tenancy with ordinary notice if they have a legitimate reason, such as the tenant significantly breaching their duties, the landlord needing the space for themselves or their family, or the landlord suffering substantial economic disadvantage from continued tenancy. The termination letter must state the reason, rent-increase motives don't count, and any agreement to the tenant's disadvantage is void.",
   "hash": "d618335da92fcb1f",
   "model": "lisa-pro"
  },
  "573a": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "This provision lets a landlord terminate a tenancy in a building with at most two apartments where the landlord lives in one of them—or in a room within the landlord's own apartment—without needing a legally recognized reason, though the notice period is extended by three months and the termination letter must state that it relies on this rule. Agreements that disadvantage the tenant in this respect are invalid.",
   "hash": "55ae4ff4f052052c",
   "model": "lisa-pro"
  },
  "573b": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "A landlord may terminate only part of the tenancy—such as non-living auxiliary rooms or parts of the property—without a justified interest if the termination is limited to those spaces and they are needed to create or equip rental housing; the tenant can then demand a rent reduction or an extension of the tenancy if construction is delayed, and any agreement to the tenant's disadvantage is void.",
   "hash": "40455afa68a83b1c",
   "model": "lisa-pro"
  },
  "573c": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "This section sets the standard notice periods for terminating an ordinary residential tenancy: either party must give notice by the third working day of a month for the tenancy to end on the last day of the month after next, and the landlord's notice period grows by three months each after five and eight years of tenancy. Shorter notice periods are allowed only for temporary or certain other limited tenancies, and any agreement that shortens the tenant's notice period to their disadvantage is void.",
   "hash": "3a57f172ca842ae2",
   "model": "lisa-pro"
  },
  "573d": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "This provision governs ordinary-notice termination rules applied to extraordinary terminations with the statutory notice period: a landlord or tenant may terminate effective at the end of the month after next if notice is given by the third working day of a month (or, for certain dwellings under § 549(2) No. 2, by the 15th of a month for the end of that same month), and any agreement shortening this to the tenant's disadvantage is void.",
   "hash": "b26166891b78702a",
   "model": "lisa-pro"
  },
  "574": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "A tenant can object to a landlord's termination and demand that the tenancy continue if ending it would cause the tenant, their family, or another household member hardship that cannot be justified even considering the landlord's legitimate interests. Hardship includes being unable to find reasonable replacement housing on acceptable terms, but the objection is not available when the landlord had grounds for immediate termination, and only the reasons stated in the termination letter count (unless they arose later). Agreements to the tenant's disadvantage are void.",
   "hash": "1122209c09ca19f1",
   "model": "lisa-pro"
  },
  "574a": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "This provision lets a tenant who has objected to a lease termination demand that the tenancy continue for as long as is reasonable given all the circumstances; if continuing on the old terms would be unfair to the landlord, the tenant can only insist on continuation with suitably adjusted terms. If the parties cannot agree, a court decides whether, for how long, and on what conditions the tenancy continues (possibly indefinitely if it's unclear when the hardship will end), and the tenant cannot contract out of these protections.",
   "hash": "f0eb1a3983f6e48d",
   "model": "lisa-pro"
  },
  "574b": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "§ 574b BGB governs how a tenant must object to a termination: the objection must be made in text form at least two months before the tenancy ends, and if the landlord failed to properly inform the tenant of this deadline and requirement in advance, the tenant can still raise the objection at the first hearing in an eviction lawsuit. Agreements that put the tenant in a worse position are invalid.",
   "hash": "752cf5193a21c507",
   "model": "lisa-pro"
  },
  "574c": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "This provision governs what happens after a tenancy has already been extended once (by agreement or court order): the tenant can only demand a further extension if circumstances have changed significantly or if a condition expected to end the extension never occurred. If the extension was for an indefinite period ordered by a court, the tenant may object to the landlord's termination notice and demand continued occupancy indefinitely; agreements to the tenant's disadvantage are void.",
   "hash": "9496878f020c3387",
   "model": "lisa-pro"
  },
  "575": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "A fixed-term tenancy is only valid if the landlord states in writing at the outset one of three specific reasons for the time limit (personal use by the landlord or family, major renovation or demolition, or renting to an employee); otherwise the tenancy is treated as open-ended. The tenant can demand confirmation that the reason still applies, and if the reason is late, delayed, or disappears, the tenant can demand the tenancy be extended accordingly or indefinitely, with the landlord bearing the burden of proof.",
   "hash": "171e654dbac81f65",
   "model": "lisa-pro"
  },
  "575a": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "This provision governs early termination of a fixed-term tenancy using the statutory notice period: the landlord must have a legally recognized ground for termination, the tenant may oppose and request continuation only up to the originally agreed end date, and notice deadlines are fixed by law (generally the third working day of a month to the end of the month after next, with a shorter deadline for certain temporary housing). Agreements that put the tenant in a worse position are void.",
   "hash": "cbe0c0f6f3a2afb8",
   "model": "lisa-pro"
  },
  "576": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "This section sets shortened notice periods for terminating service-linked company housing after the employment relationship ends: the landlord may terminate with roughly two months' notice if the housing is needed for another service employee, or with notice effective at the end of the same month if the job required living near the workplace and another such employee needs it. Agreements to the tenant's disadvantage are void.",
   "hash": "3e40e99730cf6f14",
   "model": "lisa-pro"
  },
  "576a": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "This provision limits tenants' rights to object to termination for company-owned housing tied to their employment: the employer's interests must also be weighed, and the tenant loses the right to object entirely if the landlord terminated for business reasons or if the tenant quit the job without legal justification (or gave the employer legal cause to end the employment). Any agreement putting the tenant in a worse position is invalid.",
   "hash": "1d810395cecc79fc",
   "model": "lisa-pro"
  },
  "576b": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "§ 576b BGB governs service tenancies (housing provided as part of an employment relationship): tenant-protection rules on terminating the tenancy also apply where the occupant has furnished the home with their own furniture or lives there with family or a long-term household partner, and any agreement to the occupant's disadvantage is void.",
   "hash": "fc6ee10820d9d912",
   "model": "lisa-pro"
  },
  "577": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "Gives residential tenants a statutory right of first refusal when the rented apartment is sold to a third party, unless the buyer is a family member or member of the landlord's household; the right is exercised by written declaration, passes to heirs entering the tenancy, and cannot be waived to the tenant's disadvantage.",
   "hash": "b8cfacc13a99c232",
   "model": "lisa-pro"
  },
  "577a": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "If a rented apartment is converted into condominium ownership and sold, the new owner must generally wait three years before terminating the tenancy for personal use or economic hardship reasons; this waiting period also applies to sales to partnerships or multiple buyers, or to encumbrances that would deprive the tenant of the property, unless the buyers are family or household members or the conversion predates the tenancy. In areas with a threatened supply of affordable rental housing, state governments may extend this protection period to up to ten years by regulation, and any agreement shortening these protections at the tenant's expense is void.",
   "hash": "cb9d2688bbd3d401",
   "model": "lisa-pro"
  },
  "578": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "This provision extends selected residential-lease rules to other leases: certain protections apply to land leases (with a written-form rule making long-term land leases over one year indefinite if not in text form), and additional rules apply to non-residential room leases, including tenant protections where the premises are for human occupancy. It also applies most residential tenancy protections to leases of rooms by public bodies or recognized welfare organizations used to house people with urgent housing needs, and allows such leases to be fixed-term if the landlord needs the rooms for public tasks after the lease ends.",
   "hash": "596c4a29b598e4d0",
   "model": "lisa-pro"
  },
  "578a": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "This provision extends key tenant-protection rules that normally apply when rented real estate is sold (such as the buyer stepping into the lease) to registered ships, so a ship's new owner is bound by existing charter agreements. It also sets out how rent payments and other dealings between tenant and landlord are treated when ship ownership changes hands, protecting the tenant who acts in good faith without knowing about the ownership transfer.",
   "hash": "30fc2dc652c4a1b0",
   "model": "lisa-pro"
  },
  "578b": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "§ 578b BGB governs rental contracts for digital products with consumers: it excludes the general lease-law rules on defects and non-provision of the rented item, replacing them with the special rules on digital products, and applies the same exclusions to the digital components of contracts renting physical items that contain or are connected with a digital product. It also excludes the business's claim against its distributor for reimbursement of expenses incurred toward the consumer, substituting the special digital-product rules for that claim as well.",
   "hash": "c09c04f085f64ed5",
   "model": "lisa-pro"
  },
  "579": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "This paragraph sets when rent is due: rent for land and movable items is payable at the end of the rental period, or at the end of each interval if rent is measured in time periods. Rent for land not measured in shorter intervals is due quarterly, on the first working day after each calendar quarter, while rent for premises follows the payment timing rules of § 556b(1).",
   "hash": "6818e518f05107cf",
   "model": "lisa-pro"
  },
  "580": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "§ 580 BGB governs the termination of a lease when the tenant dies: both the tenant's heir and the landlord may give ordinary-notice termination within one month of learning of the death.",
   "hash": "d943dc065b9e9068",
   "model": "lisa-pro"
  },
  "580a": {
-  "gloss": "The tenancy ends when the agreed term expires [1]. The statute says \"endet mit dem Ablauf dieser Zeit\" [1].",
+  "gloss": "This section sets the statutory notice periods for terminating leases: daily or weekly rent allows very short notice, monthly rent for non-business premises requires notice by the third working day of a month to end the lease after the following month, and commercial leases of business premises or undeveloped land require quarterly notice periods. The same deadlines also apply when a lease is terminated for cause with statutory notice.",
   "hash": "ccd5899b1d452727",
   "model": "lisa-pro"
  }

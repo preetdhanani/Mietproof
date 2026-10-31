@@ -6,7 +6,7 @@ One page. Symptom -> likely cause -> check -> fix.
 
 | Symptom | Likely cause | Check | Fix |
 |---|---|---|---|
-| `/ask` returns 503 "LLM endpoint unavailable" | Generator endpoint down, expired, or key revoked | `docker logs bgb-rag-app-1 \| grep LLM`; `curl $LLM_BASE_URL/models -H "Authorization: Bearer $LLM_API_KEY"` from the VM | Fix the key/provider in `.env`, `docker compose up -d app`. If the university endpoint expired: swap provider via `LLM_*` env (the design's contingency rule); if none available, retire the live link and flip the README badge |
+| `/ask` returns 503 "LLM endpoint unavailable" | Generator endpoint down, expired, or key revoked | `docker logs bgb-rag-app-1 \| grep LLM`; `curl $LLM_BASE_URL/models -H "Authorization: Bearer $LISA_API"` from the VM | Fix LISA_API/provider in `.env`, `docker compose up -d app`. If the university endpoint expired: swap provider via `LLM_*` env (the design's contingency rule); if none available, retire the live link and flip the README badge |
 | `/ask` returns 429 "daily token budget exhausted" | Daily budget spent | `cat /app/data/token_budget_state.json` (inside the app-data volume) | Waits until UTC midnight, or raise `DAILY_TOKEN_BUDGET` if the endpoint's real limit allows |
 | `/ask` returns 429 "server busy" | Concurrency semaphore full | `docker logs` for repeated "concurrency cap" | Transient; if persistent, check for a stuck LLM call (timeout) and restart the app |
 | Answers have no citations / refusal body | Citation verification failed twice | Check the response `behavior: refusal`; `docker logs` for verifier failures | Usually a prompt/model mismatch; check the prompt version in the trace, re-ingest if the collection is stale |

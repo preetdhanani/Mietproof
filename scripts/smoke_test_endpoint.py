@@ -55,13 +55,13 @@ def probe_endpoint() -> None:
     _load_dotenv()
     base_url = os.environ.get("LLM_BASE_URL", "").rstrip("/")
     model = os.environ.get("LLM_MODEL", "")
-    api_key = os.environ.get("LLM_API_KEY", "")
+    api_key = os.environ.get("LISA_API", "")
 
     if not base_url or not model:
         record("endpoint config", False, "LLM_BASE_URL / LLM_MODEL unset - see .env.example")
         return
 
-    headers = {"Authorization": f"Bearer {api_key}"} if api_key else {}
+    headers = {"Authorization": "Bearer " + api_key} if api_key else {}
 
     # 1. Reachability (some OpenAI-compatible deployments serve /models only
     # under a versioned path or not at all; chat/completions is the real probe)

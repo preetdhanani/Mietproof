@@ -56,7 +56,7 @@ full configuration tuple.
 ## Quickstart
 
 ```bash
-cp .env.example .env        # fill in LLM_BASE_URL / LLM_MODEL / LLM_API_KEY
+cp .env.example .env        # fill in LLM_BASE_URL / LLM_MODEL / LISA_API
 make up                     # start the stack
 make ingest                 # fetch -> parse -> gloss -> chunk -> embed -> index
 make ask                    # first answer

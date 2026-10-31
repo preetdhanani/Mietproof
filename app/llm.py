@@ -44,7 +44,7 @@ def chat_completion(
     """
     if not endpoint.configured():
         raise LLMError("LLM endpoint not configured (LLM_BASE_URL / LLM_MODEL unset)")
-    headers = {"Authorization": f"Bearer {endpoint.api_key}"} if endpoint.api_key else {}
+    headers = {"Authorization": "Bearer " + endpoint.api_key} if endpoint.api_key else {}
     payload = {
         "model": endpoint.model,
         "messages": messages,

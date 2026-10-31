@@ -40,12 +40,11 @@ class Settings(BaseSettings):
     # Generator endpoint
     LLM_BASE_URL: str = ""
     LLM_MODEL: str = ""
-    LLM_API_KEY: str = ""
+    LISA_API: str = ""
 
     # Judge endpoint (separate entry; used only by the scheduled RAGAS tier)
     JUDGE_BASE_URL: str = ""
     JUDGE_MODEL: str = ""
-    JUDGE_API_KEY: str = ""
 
     # Retrieval
     EMBEDDING_MODEL: str = "intfloat/multilingual-e5-base"
@@ -68,14 +67,14 @@ class Settings(BaseSettings):
 
     def generator(self) -> LLMEndpointConfig:
         return LLMEndpointConfig(
-            base_url=self.LLM_BASE_URL, model=self.LLM_MODEL, api_key=self.LLM_API_KEY
+            base_url=self.LLM_BASE_URL, model=self.LLM_MODEL, api_key=self.LISA_API
         )
 
     def judge(self) -> LLMEndpointConfig:
         return LLMEndpointConfig(
             base_url=self.JUDGE_BASE_URL or self.LLM_BASE_URL,
             model=self.JUDGE_MODEL or self.LLM_MODEL,
-            api_key=self.JUDGE_API_KEY or self.LLM_API_KEY,
+            api_key=self.LISA_API,
         )
 
     @property

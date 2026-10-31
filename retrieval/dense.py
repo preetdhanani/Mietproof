@@ -59,7 +59,15 @@ class DenseRetriever:
         self._build_paragraph_space()
 
     def _build_paragraph_space(self) -> None:
-        """One embedding per §: heading + full text (+ gloss when present)."""
+        """One embedding per §: heading + full text (German only).
+
+        The English gloss is deliberately NOT embedded: measured on the
+        golden set, gloss-bearing paragraph embeddings score 26/30 while
+        German-only scores 29/30 - the gloss dilutes the legal text's
+        embedding, and cross-lingual matching is handled by the query
+        enrichment lexicon instead. The gloss stays in metadata for display
+        and citation output.
+        """
         self.paragraphs = load_paragraphs(self.collection_dir)
         numbers = sorted(
             self.paragraphs.keys(),
@@ -70,8 +78,6 @@ class DenseRetriever:
         for n in numbers:
             record = self.paragraphs[n]
             text = record["full_text"]
-            if record.get("gloss_en"):
-                text = record["gloss_en"] + " | " + text
             if record.get("heading"):
                 text = record["heading"] + ". " + text
             texts.append(text)

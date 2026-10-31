@@ -32,10 +32,9 @@ jobs:
         env:
           LLM_BASE_URL: ${{ secrets.LLM_BASE_URL }}
           LLM_MODEL: ${{ secrets.LLM_MODEL }}
-          LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
+          LISA_API: ${{ secrets.LISA_API }}
           JUDGE_BASE_URL: ${{ secrets.JUDGE_BASE_URL }}
           JUDGE_MODEL: ${{ secrets.JUDGE_MODEL }}
-          JUDGE_API_KEY: ${{ secrets.JUDGE_API_KEY }}
       - name: Upload per-question results
         if: always()
         uses: actions/upload-artifact@v4
