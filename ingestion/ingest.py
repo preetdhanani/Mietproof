@@ -59,7 +59,9 @@ def build_collection(
         effective_gloss_model = None
 
     chunks = chunk_paragraphs(paragraphs, glosses, stand_date)
-    paragraphs_path = write_paragraphs(paragraphs, collections_dir / "_staging")
+    paragraphs_path = write_paragraphs(
+        paragraphs, collections_dir / "_staging", glosses=glosses or None
+    )
 
     embedder = Embedder(embedder_name)
     # Embed gloss + text when a gloss exists: the English gloss is the
@@ -132,8 +134,9 @@ def main(argv: list[str] | None = None) -> int:
     if not args.no_gloss and settings.llm_configured:
         from app.llm import make_completion
 
-        gloss_fn = make_completion(settings.generator)
-        gloss_model = settings.generator.model
+        generator = settings.generator()
+        gloss_fn = make_completion(generator)
+        gloss_model = generator.model
 
     collection_dir = build_collection(
         snapshot_path=snapshot_path,

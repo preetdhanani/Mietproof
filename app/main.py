@@ -291,14 +291,19 @@ async def ask(payload: AskRequest, request: Request) -> AskResponse:
 
 
 def asdict_citation(citation: dict) -> dict:
+    """Normalize both citation shapes (verified citations and the refusal
+    path's nearest-paragraphs) to the response schema."""
     return {
-        "index": citation["index"],
+        "index": citation.get("index", 0),
         "paragraph": citation["paragraph"],
-        "absatz": citation["absatz"],
-        "law_abbr": citation["law_abbr"],
-        "german_text": citation["german_text"],
-        "gloss_en": citation["gloss_en"],
-        "deep_link": citation["deep_link"],
+        "absatz": citation.get("absatz", ""),
+        "law_abbr": citation.get("law_abbr", "BGB"),
+        "german_text": citation.get("german_text", citation.get("chunk_text", "")),
+        "gloss_en": citation.get("gloss_en", ""),
+        "deep_link": citation.get(
+            "deep_link",
+            f"https://www.gesetze-im-internet.de/bgb/__{citation['paragraph']}.html",
+        ),
     }
 
 

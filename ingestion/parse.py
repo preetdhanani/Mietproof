@@ -147,11 +147,23 @@ def parse_bgb_xml(xml_bytes: bytes) -> list[ParagraphRecord]:
     return records
 
 
-def write_paragraphs(records: list[ParagraphRecord], collection_dir: Path) -> Path:
-    """Write paragraph records as paragraphs.jsonl into the collection dir."""
+def write_paragraphs(
+    records: list[ParagraphRecord],
+    collection_dir: Path,
+    glosses: dict[str, str] | None = None,
+) -> Path:
+    """Write paragraph records as paragraphs.jsonl into the collection dir.
+
+    ``glosses`` (paragraph number -> English gloss) is merged into the
+    records so the paragraph-level retrieval space can embed the gloss -
+    the cross-lingual bridge for English queries.
+    """
     collection_dir.mkdir(parents=True, exist_ok=True)
     path = collection_dir / "paragraphs.jsonl"
     with path.open("w", encoding="utf-8") as handle:
         for record in records:
-            handle.write(json.dumps(record.to_json(), ensure_ascii=False) + "\n")
+            data = record.to_json()
+            if glosses and record.number in glosses:
+                data["gloss_en"] = glosses[record.number]
+            handle.write(json.dumps(data, ensure_ascii=False) + "\n")
     return path

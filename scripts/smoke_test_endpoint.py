@@ -33,9 +33,26 @@ def record(name: str, ok: bool, detail: str) -> None:
     print(f"{'PASS' if ok else 'FAIL'}  {name}: {detail}")
 
 
+def _load_dotenv() -> None:
+    """Populate os.environ from .env (no dependency; existing env wins)."""
+    import os
+    from pathlib import Path
+
+    env_path = Path(__file__).resolve().parent.parent / ".env"
+    if not env_path.exists():
+        return
+    for line in env_path.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, _, value = line.partition("=")
+        os.environ.setdefault(key.strip(), value.strip().strip("'").strip('"'))
+
+
 def probe_endpoint() -> None:
     import os
 
+    _load_dotenv()
     base_url = os.environ.get("LLM_BASE_URL", "").rstrip("/")
     model = os.environ.get("LLM_MODEL", "")
     api_key = os.environ.get("LLM_API_KEY", "")
@@ -142,7 +159,7 @@ def probe_endpoint() -> None:
 
 def probe_corpus_source() -> None:
     # XML per-paragraph structure, Absatz encoding, machine-readable Stand date.
-    url = "https://www.gesetze-im-internet.de/xml/bgb.zip"
+    url = "https://www.gesetze-im-internet.de/bgb/xml.zip"
     try:
         r = httpx.get(url, timeout=120, follow_redirects=True)
         record(
