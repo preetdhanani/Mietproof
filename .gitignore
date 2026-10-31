@@ -17,3 +17,7 @@ deploy/data/
 
 # Collections built locally (ingested, not committed)
 data/collections/
+
+# React UI
+ui/node_modules/
+ui/dist/

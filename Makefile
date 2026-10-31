@@ -42,3 +42,11 @@ test:
 lint:
 	uv run ruff check .
 	uv run ruff format --check .
+
+# React debug UI (dev server with proxy to the API)
+ui:
+	cd ui && npm run dev
+
+# Build the UI for production (served by Caddy)
+ui-build:
+	cd ui && npm run build
