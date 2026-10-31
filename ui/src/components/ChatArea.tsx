@@ -51,21 +51,26 @@ export function ChatArea({ session, loading, error, onSubmit }: ChatAreaProps) {
     <main className="flex-1 flex flex-col min-w-0">
       <div className="flex-1 overflow-y-auto">
         {!session || session.messages.length === 0 ? (
-          <div className="h-full flex flex-col items-center justify-center px-6">
-            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-500/15 mb-4">
+          <div className="h-full flex flex-col items-center justify-center px-6 relative">
+            <div
+              className="absolute w-72 h-72 rounded-full bg-emerald-500/10 blur-3xl pointer-events-none"
+              style={{ animation: 'pulse-glow 5s ease-in-out infinite' }}
+            />
+            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-500/25 to-teal-600/25 border border-emerald-500/30 mb-4 relative shadow-lg shadow-emerald-950/50">
               <Scale className="h-7 w-7 text-emerald-400" />
             </div>
-            <h2 className="text-xl font-semibold text-zinc-100 mb-1">German rental law, answered in English</h2>
-            <p className="text-sm text-zinc-500 mb-8 text-center max-w-md">
+            <h2 className="text-xl font-semibold text-zinc-100 mb-1 relative">German rental law, answered in English</h2>
+            <p className="text-sm text-zinc-500 mb-8 text-center max-w-md relative">
               Every answer cites the exact BGB paragraph it came from - with the pipeline's
               full thinking process visible below each response.
             </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-w-xl w-full">
-              {EXAMPLES.map((ex) => (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-w-xl w-full relative">
+              {EXAMPLES.map((ex, i) => (
                 <button
                   key={ex}
                   onClick={() => onSubmit(ex)}
-                  className="rounded-xl border border-zinc-800 bg-zinc-900/60 px-4 py-3 text-left text-xs text-zinc-300 hover:border-emerald-500/40 hover:bg-zinc-900 transition-colors"
+                  className="rounded-xl border border-zinc-800 bg-zinc-900/60 px-4 py-3 text-left text-xs text-zinc-300 hover:border-emerald-500/40 hover:bg-zinc-900 hover:text-zinc-100 transition-all duration-200 hover:-translate-y-0.5 stage-enter"
+                  style={{ '--stage-index': i } as React.CSSProperties}
                 >
                   {ex}
                 </button>
@@ -78,15 +83,15 @@ export function ChatArea({ session, loading, error, onSubmit }: ChatAreaProps) {
               <MessageBubble key={m.id} message={m} />
             ))}
             {loading && (
-              <div className="flex px-4 py-3">
+              <div className="flex px-4 py-3 animate-fade-up">
                 <div className="flex items-start gap-2.5">
-                  <div className="flex h-7 w-7 items-center justify-center rounded-full bg-emerald-500/15 mt-0.5">
+                  <div className="flex h-7 w-7 items-center justify-center rounded-full bg-emerald-500/15 mt-0.5 animate-pulse">
                     <Scale className="h-3.5 w-3.5 text-emerald-400" />
                   </div>
                   <div className="rounded-2xl rounded-tl-md bg-zinc-900 border border-zinc-800 px-4 py-3">
-                    <div className="flex items-center gap-2 text-xs text-zinc-500">
-                      <Loader2 className="h-3.5 w-3.5 animate-spin" />
-                      retrieving · generating · verifying citations…
+                    <div className="flex items-center gap-2 text-xs">
+                      <Loader2 className="h-3.5 w-3.5 animate-spin text-emerald-500" />
+                      <span className="shimmer-text font-medium">retrieving · generating · verifying citations…</span>
                     </div>
                   </div>
                 </div>

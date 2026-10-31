@@ -13,12 +13,12 @@ const BEHAVIOR_LABELS: Record<string, { label: string; className: string }> = {
 export function MessageBubble({ message }: { message: ChatMessage }) {
   if (message.role === 'user') {
     return (
-      <div className="flex justify-end px-4 py-3">
+      <div className="flex justify-end px-4 py-3 animate-fade-up">
         <div className="flex items-start gap-2.5 max-w-[75%]">
-          <div className="rounded-2xl rounded-tr-md bg-emerald-600 px-4 py-2.5 text-sm text-white leading-relaxed">
+          <div className="rounded-2xl rounded-tr-md bg-gradient-to-br from-emerald-600 to-emerald-700 px-4 py-2.5 text-sm text-white leading-relaxed shadow-lg shadow-emerald-950/40">
             {message.content}
           </div>
-          <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-zinc-800 mt-0.5">
+          <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-zinc-800 border border-zinc-700 mt-0.5">
             <User className="h-3.5 w-3.5 text-zinc-400" />
           </div>
         </div>
@@ -30,9 +30,9 @@ export function MessageBubble({ message }: { message: ChatMessage }) {
   const behavior = response ? BEHAVIOR_LABELS[response.behavior] : null
 
   return (
-    <div className="flex px-4 py-3">
+    <div className="flex px-4 py-3 animate-fade-up">
       <div className="flex items-start gap-2.5 max-w-[85%] w-full">
-        <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-emerald-500/15 mt-0.5">
+        <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-emerald-500/25 to-teal-600/25 border border-emerald-500/30 mt-0.5 shadow-sm shadow-emerald-950/50">
           <Scale className="h-3.5 w-3.5 text-emerald-400" />
         </div>
         <div className="flex-1 min-w-0 space-y-2">
@@ -42,7 +42,7 @@ export function MessageBubble({ message }: { message: ChatMessage }) {
               {behavior.label}
             </span>
           )}
-          <div className="rounded-2xl rounded-tl-md bg-zinc-900 border border-zinc-800 px-4 py-3">
+          <div className="rounded-2xl rounded-tl-md bg-gradient-to-b from-zinc-900 to-zinc-900/80 border border-zinc-800 px-4 py-3 shadow-xl shadow-black/20">
             <div className="answer-markdown text-sm text-zinc-200 leading-relaxed">
               <ReactMarkdown>{message.content}</ReactMarkdown>
             </div>

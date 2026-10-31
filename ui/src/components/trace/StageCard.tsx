@@ -22,12 +22,12 @@ export function StageCard({
 }: StageCardProps) {
   const [open, setOpen] = useState(defaultOpen)
   return (
-    <div className="rounded-xl border border-zinc-800 bg-zinc-900/60 overflow-hidden">
+    <div className="rounded-xl border border-zinc-800 bg-zinc-900/60 overflow-hidden transition-all duration-200 hover:border-zinc-700 hover:bg-zinc-900/80 hover:shadow-lg hover:shadow-black/20">
       <button
         onClick={() => setOpen(!open)}
-        className="w-full flex items-center gap-3 px-3 py-2.5 hover:bg-zinc-800/50 transition-colors text-left"
+        className="w-full flex items-center gap-3 px-3 py-2.5 hover:bg-zinc-800/50 transition-colors text-left cursor-pointer"
       >
-        <span className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-lg ${accent}`}>{icon}</span>
+        <span className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-lg ${accent} transition-transform duration-200 group-hover:scale-105`}>{icon}</span>
         <span className="flex-1 min-w-0">
           <span className="block text-sm font-medium text-zinc-100">{title}</span>
           {subtitle && <span className="block text-xs text-zinc-500 truncate">{subtitle}</span>}
@@ -37,13 +37,13 @@ export function StageCard({
             {badge}
           </span>
         )}
-        {open ? (
-          <ChevronDown className="h-4 w-4 text-zinc-500 shrink-0" />
-        ) : (
-          <ChevronRight className="h-4 w-4 text-zinc-500 shrink-0" />
-        )}
+        <span className={`shrink-0 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}>
+          {open ? <ChevronDown className="h-4 w-4 text-zinc-500" /> : <ChevronRight className="h-4 w-4 text-zinc-500" />}
+        </span>
       </button>
-      {open && <div className="px-3 pb-3 pt-1 border-t border-zinc-800/80">{children}</div>}
+      {open && (
+        <div className="px-3 pb-3 pt-1 border-t border-zinc-800/80 animate-fade-in">{children}</div>
+      )}
     </div>
   )
 }
