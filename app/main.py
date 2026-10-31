@@ -21,6 +21,7 @@ from contextlib import asynccontextmanager
 from pathlib import Path
 
 from fastapi import FastAPI, HTTPException, Request
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
 
@@ -154,6 +155,14 @@ app = FastAPI(
     ),
     version="0.1.0",
     lifespan=lifespan,
+)
+
+# The debug UI may be served from a different origin (Caddy site or dev server).
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # no auth, public read-only demo
+    allow_methods=["GET", "POST"],
+    allow_headers=["Content-Type"],
 )
 
 
