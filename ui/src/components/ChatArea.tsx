@@ -129,7 +129,7 @@ export function ChatArea({ session, loading, error, onSubmit }: ChatAreaProps) {
               {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <ArrowUp className="h-4 w-4" />}
             </button>
           </div>
-          <p className="mt-2 text-center text-[10px] text-zinc-600">
+          <p className="mt-2 text-center text-[10px] text-zinc-400">
             General statutory information, not legal advice · BGB §§ 535-580a · Stand 2026-07-23
           </p>
         </div>

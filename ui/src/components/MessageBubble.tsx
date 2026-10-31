@@ -79,7 +79,7 @@ export function MessageBubble({ message }: { message: ChatMessage }) {
                         "{c.german_text}"
                       </p>
                       {c.gloss_en && (
-                        <p className="mt-1 text-[11px] text-zinc-500 leading-relaxed line-clamp-2">{c.gloss_en}</p>
+                        <p className="mt-1 text-[11px] text-zinc-400 leading-relaxed line-clamp-2">{c.gloss_en}</p>
                       )}
                     </a>
                   ))}
@@ -95,7 +95,7 @@ export function MessageBubble({ message }: { message: ChatMessage }) {
           )}
 
           {response && (
-            <p className="text-[10px] text-zinc-600">
+            <p className="text-[10px] text-zinc-400">
               {response.disclaimer} · Stand {response.corpus_stand_date} · request {response.request_id}
             </p>
           )}

@@ -16,8 +16,8 @@ function CandidateList({ candidates, color, max }: { candidates: Candidate[]; co
     <div className="space-y-1.5">
       {candidates.map((c) => (
         <div key={`${c.paragraph}-${c.absatz}-${c.rank}`} className="space-y-0.5">
-          <ScoreBar label={c.paragraph} score={c.score} max={max} color={color} detail={`#${c.rank}`} />
-          <p className="text-[11px] text-zinc-500 pl-12 truncate">{c.text_preview}</p>
+          <ScoreBar label={c.paragraph} score={c.score} max={max} color={color} detail={`#${c.rank}`} hoverText={c.text_preview} />
+          <p className="text-[11px] text-zinc-400 pl-12 truncate">{c.text_preview}</p>
         </div>
       ))}
     </div>
@@ -35,8 +35,8 @@ export function Bm25Stage({ stage }: { stage: TraceStage }) {
       accent="bg-amber-500/15 text-amber-400"
       badge={`${candidates.length} candidates`}
     >
-      <CandidateList candidates={candidates} color="bg-amber-500" max={max} />
-      <p className="mt-2 text-[11px] text-zinc-500 italic">{stage.note as string}</p>
+      <CandidateList candidates={candidates} color="bg-amber-600" max={max} />
+      <p className="mt-2 text-[11px] text-zinc-400 italic">{stage.note as string}</p>
     </StageCard>
   )
 }
@@ -66,14 +66,15 @@ export function DenseStage({ stage }: { stage: TraceStage }) {
               label={r.paragraph}
               score={r.paragraph_cosine}
               max={max}
-              color="bg-sky-500"
+              color="bg-sky-600"
               detail={r.best_chunk_cosine !== null ? `chunk ${r.best_chunk_cosine.toFixed(3)}` : undefined}
+              hoverText={r.heading}
             />
-            <p className="text-[11px] text-zinc-500 pl-12 truncate">{r.heading}</p>
+            <p className="text-[11px] text-zinc-400 pl-12 truncate">{r.heading}</p>
           </div>
         ))}
       </div>
-      <p className="mt-2 text-[11px] text-zinc-500 italic">
+      <p className="mt-2 text-[11px] text-zinc-400 italic">
         Paragraph-space cosine ranks; the chunk space picks the displayed Absatz.
       </p>
     </StageCard>
@@ -109,7 +110,7 @@ export function FusionStage({ stage }: { stage: TraceStage }) {
       <div className="space-y-1.5">
         {rows.map((r) => (
           <div key={`${r.paragraph}-${r.absatz}`} className="flex items-center gap-2">
-            <span className="w-10 shrink-0 text-right font-mono text-[11px] text-zinc-500">§{r.paragraph}</span>
+            <span className="w-10 shrink-0 text-right font-mono text-[11px] text-zinc-400">§{r.paragraph}</span>
             <div className="flex-1 h-2 rounded-full bg-zinc-800 overflow-hidden">
               <div className="h-full rounded-full bg-violet-500" style={{ width: `${(r.rrf_score / max) * 100}%` }} />
             </div>
@@ -152,7 +153,7 @@ export function EnrichmentStage({ stage }: { stage: TraceStage }) {
             </div>
           </>
         )}
-        <p className="text-[11px] text-zinc-500 italic">{stage.note as string}</p>
+        <p className="text-[11px] text-zinc-400 italic">{stage.note as string}</p>
       </div>
     </StageCard>
   )

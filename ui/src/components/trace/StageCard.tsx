@@ -30,7 +30,7 @@ export function StageCard({
         <span className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-lg ${accent} transition-transform duration-200 group-hover:scale-105`}>{icon}</span>
         <span className="flex-1 min-w-0">
           <span className="block text-sm font-medium text-zinc-100">{title}</span>
-          {subtitle && <span className="block text-xs text-zinc-500 truncate">{subtitle}</span>}
+          {subtitle && <span className="block text-xs text-zinc-400 truncate">{subtitle}</span>}
         </span>
         {badge && (
           <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-400 border border-zinc-700">

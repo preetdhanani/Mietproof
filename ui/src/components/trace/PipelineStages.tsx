@@ -27,7 +27,7 @@ export function FloorStage({ stage }: { stage: TraceStage }) {
             </div>
           )}
         </div>
-        <p className="text-[11px] text-zinc-500 italic">{stage.note as string}</p>
+        <p className="text-[11px] text-zinc-400 italic">{stage.note as string}</p>
       </div>
     </StageCard>
   )
@@ -75,7 +75,7 @@ export function PromptStage({ stage }: { stage: TraceStage }) {
           </div>
         )}
         <details className="group">
-          <summary className="text-[11px] text-zinc-500 cursor-pointer hover:text-zinc-300">
+          <summary className="text-[11px] text-zinc-400 cursor-pointer hover:text-zinc-300">
             show full prompt text
           </summary>
           <pre className="mt-1 text-[10px] leading-relaxed text-zinc-400 bg-zinc-950 rounded-lg p-2 max-h-64 overflow-y-auto whitespace-pre-wrap font-mono">
@@ -108,7 +108,7 @@ export function GenerationStage({ stage, attempt }: { stage: TraceStage; attempt
             ))}
           </ul>
         )}
-        <p className="text-[11px] text-zinc-500 italic">{stage.note as string}</p>
+        <p className="text-[11px] text-zinc-400 italic">{stage.note as string}</p>
       </div>
     </StageCard>
   )
