@@ -4,15 +4,26 @@
 # Set DEMO_DOMAIN in the environment (e.g. bgb.example.com).
 
 {$DEMO_DOMAIN:localhost} {
-	# API surface: the FastAPI app
-	reverse_proxy app:8000
+	# API surface: the FastAPI app. flush_interval -1 passes /ask/stream
+	# NDJSON events through as they are written instead of buffering them.
+	reverse_proxy app:8000 {
+		flush_interval -1
+	}
 
 	# Langfuse UI (optional, for the author only; comment out to keep private)
 	# handle /langfuse/* {
 	# 	reverse_proxy langfuse-web:3000
 	# }
 
-	encode gzip
+	# Compress regular responses only; compressing the NDJSON stream would
+	# buffer the live pipeline events.
+	encode {
+		gzip
+		match {
+			header Content-Type application/json*
+			header Content-Type text/*
+		}
+	}
 
 	header {
 		Strict-Transport-Security "max-age=31536000"

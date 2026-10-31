@@ -15,6 +15,37 @@ function loadSessions(): ChatSession[] {
   }
 }
 
+// Trace fields that make up most of a trace's size; dropped first when storage is full.
+const HEAVY_FIELDS = ['all_scores', 'all_paragraphs', 'messages', 'final_prompt', 'reasoning', 'sections']
+
+/** Drop the bulky parts of traces so more history fits (views degrade gracefully). */
+function slim(sessions: ChatSession[], dropTraces: boolean): ChatSession[] {
+  return sessions.map((s) => ({
+    ...s,
+    messages: s.messages.map((m) => {
+      if (!m.response?.trace) return m
+      if (dropTraces) return { ...m, response: { ...m.response, trace: null } }
+      const stages = m.response.trace.stages.map((st) =>
+        Object.fromEntries(Object.entries(st).filter(([k]) => !HEAVY_FIELDS.includes(k))),
+      ) as typeof m.response.trace.stages
+      return { ...m, response: { ...m.response, trace: { ...m.response.trace, stages } } }
+    }),
+  }))
+}
+
+/** Persist sessions, degrading (slimmer traces, then no traces) when storage is full. */
+function saveSessions(sessions: ChatSession[]) {
+  const recent = sessions.slice(0, 50)
+  for (const candidate of [recent, slim(recent, false), slim(recent, true)]) {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(candidate))
+      return
+    } catch {
+      // quota exceeded or storage unavailable - try a smaller payload
+    }
+  }
+}
+
 function newSession(): ChatSession {
   return {
     id: crypto.randomUUID(),
@@ -27,14 +58,24 @@ function newSession(): ChatSession {
 
 export function useSessions() {
   const [sessions, setSessions] = useState<ChatSession[]>(loadSessions)
-  const [activeId, setActiveId] = useState<string | null>(() => localStorage.getItem(ACTIVE_KEY))
+  const [activeId, setActiveId] = useState<string | null>(() => {
+    try {
+      return localStorage.getItem(ACTIVE_KEY)
+    } catch {
+      return null
+    }
+  })
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(sessions.slice(-50)))
+    saveSessions(sessions)
   }, [sessions])
 
   useEffect(() => {
-    if (activeId) localStorage.setItem(ACTIVE_KEY, activeId)
+    try {
+      if (activeId) localStorage.setItem(ACTIVE_KEY, activeId)
+    } catch {
+      // storage unavailable - the active chat just is not remembered
+    }
   }, [activeId])
 
   const active = sessions.find((s) => s.id === activeId) ?? null
@@ -74,24 +115,15 @@ export function useSessions() {
     [],
   )
 
-  const updateLastAssistant = useCallback(
-    (sessionId: string, response: import('../types').AskResponse) => {
-      setSessions((prev) =>
-        prev.map((s) => {
-          if (s.id !== sessionId) return s
-          const messages = [...s.messages]
-          for (let i = messages.length - 1; i >= 0; i--) {
-            if (messages[i].role === 'assistant') {
-              messages[i] = { ...messages[i], content: response.answer, response }
-              break
-            }
-          }
-          return { ...s, messages, updated_at: Date.now() }
-        }),
-      )
-    },
-    [],
-  )
+  const updateMessage = useCallback((sessionId: string, messageId: string, patch: Partial<ChatMessage>) => {
+    setSessions((prev) =>
+      prev.map((s) => {
+        if (s.id !== sessionId) return s
+        const messages = s.messages.map((m) => (m.id === messageId ? { ...m, ...patch } : m))
+        return { ...s, messages, updated_at: Date.now() }
+      }),
+    )
+  }, [])
 
   return {
     sessions: [...sessions].sort((a, b) => b.updated_at - a.updated_at),
@@ -101,6 +133,6 @@ export function useSessions() {
     createSession,
     deleteSession,
     appendMessage,
-    updateLastAssistant,
+    updateMessage,
   }
 }

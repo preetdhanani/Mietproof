@@ -62,12 +62,17 @@ def make_pipeline(
         laws=["BGB"],
         floor=floor,
     )
-    pipe._generate = lambda prompt: fake_chat_completion(
-        None,
-        [  # type: ignore[method-assign]
-            {"role": "user", "content": prompt}
-        ],
-    )["choices"][0]["message"]["content"]
+
+    def fake_generate(prompt, on_delta=None):
+        content = fake_chat_completion(None, [{"role": "user", "content": prompt}])["choices"][0][
+            "message"
+        ]["content"]
+        if on_delta is not None:  # stream it like the real endpoint would
+            on_delta("reasoning", "thinking")
+            on_delta("content", content)
+        return content, {}
+
+    pipe._generate = fake_generate  # type: ignore[method-assign]
     pipe._rewrite = None
     return pipe, calls
 
@@ -131,7 +136,7 @@ def test_follow_up_rewrite_invoked(retriever, monkeypatch) -> None:
     pipe, calls = make_pipeline(retriever, responses=["deposit return deadline", GOOD_ANSWER])
     rewritten: list[str] = []
 
-    def fake_rewrite(query, history, endpoint, system_prompt):
+    def fake_rewrite(query, history, endpoint, system_prompt, usage_out=None, status_out=None):
         rewritten.append((query, system_prompt))
         return "deposit return deadline"
 
@@ -212,3 +217,51 @@ def test_session_store_ttl_and_trimming() -> None:
     assert len(history) == 4  # 2 exchanges max = 4 messages
     assert history[0]["content"] == "q2"
     assert store.get_history("s", now=100.0) == []  # TTL expired
+
+
+def test_debug_trace_does_not_rerun_retrieval(retriever, monkeypatch) -> None:
+    """Tracing reads one debug retrieval pass instead of re-running retrieval
+    per stage, so stage timings measure the real work."""
+    from app.trace import TraceCollector
+
+    embeddings = []
+    original = retriever._query_embedding
+
+    def counting(query):
+        embeddings.append(query)
+        return original(query)
+
+    monkeypatch.setattr(retriever, "_query_embedding", counting)
+    pipe, _ = make_pipeline(retriever, responses=[GOOD_ANSWER])
+    pipe.ask("When does a fixed-term tenancy end?")
+    plain = len(embeddings)
+
+    embeddings.clear()
+    collector = TraceCollector(request_id="r", question="q")
+    pipe.ask("When does a fixed-term tenancy end?", collector=collector)
+    # one embedding serves retrieval and the confidence floor (the untraced
+    # path embeds a second time inside confidence())
+    assert len(embeddings) == 1 < plain
+    stages = [s["stage"] for s in collector.stages]
+    assert stages[:2] == ["query_enrichment", "dense_retrieval"]
+    assert all("t_ms" in s and "duration_ms" in s for s in collector.stages)
+
+
+def test_rewrite_reports_fallback_when_model_returns_nothing(monkeypatch) -> None:
+    """A reasoning model can spend its whole budget thinking and return no
+    content; the original question is used and the fallback is reported."""
+    from app import rewriting
+
+    def empty_completion(endpoint, messages, **kwargs):
+        assert kwargs["max_tokens"] >= 512
+        return {"choices": [{"message": {"content": ""}}], "usage": {"total_tokens": 128}}
+
+    monkeypatch.setattr(rewriting, "chat_completion", empty_completion)
+    status: dict = {}
+    usage: dict = {}
+    result = rewriting.rewrite_query(
+        "and for the landlord?", [], None, "PROMPT", usage_out=usage, status_out=status
+    )
+    assert result == "and for the landlord?"
+    assert status == {"fell_back": True}
+    assert usage["total_tokens"] == 128

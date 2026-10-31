@@ -141,3 +141,19 @@ def test_verify_quote_spanning_chunk_boundary() -> None:
     )
     result = verify_answer(answer, make_chunks(), paragraphs)
     assert result.ok, result.failures
+
+
+def test_verify_records_every_check() -> None:
+    answer = (
+        'The landlord must grant use of the property [1]. It says "den Gebrauch der '
+        'Mietsache während der Mietzeit zu gewähren" [1]. See also [7].'
+    )
+    result = verify_answer(answer, make_chunks(), make_paragraphs())
+    by_kind = {(c["kind"], c["target"]): c for c in result.checks}
+    assert by_kind[("ref", "[1]")]["passed"]
+    assert not by_kind[("ref", "[7]")]["passed"]
+    assert by_kind[("paragraph", "§ 535")]["passed"]
+    quote = next(c for c in result.checks if c["kind"] == "quote")
+    assert quote["passed"] and quote["detail"] == "found verbatim in § 535"
+    # failures are exactly the checks that did not pass
+    assert result.failures == [c["detail"] for c in result.checks if not c["passed"]]

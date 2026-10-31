@@ -23,6 +23,7 @@ from pathlib import Path
 
 import numpy as np
 
+from ingestion.embed import e5_prefix
 from retrieval.base import (
     EMBEDDINGS_FILENAME,
     ScoredChunk,
@@ -93,10 +94,17 @@ class DenseRetriever:
         return self._model.encode_query(effective)
 
     def retrieve(self, query: str, k: int = 5) -> list[ScoredChunk]:
+        return self.retrieve_debug(query, k)[0]
+
+    def retrieve_debug(self, query: str, k: int = 5) -> tuple[list[ScoredChunk], dict]:
+        """Ranked hits plus per-paragraph detail for the debug UI:
+        paragraph-space and chunk-space scores side by side."""
         query_vec = self._query_embedding(query)
         # Cosine similarity in both spaces; embeddings are L2-normalized.
         chunk_sims = self.chunk_embeddings @ query_vec
         para_sims = self.paragraph_embeddings @ query_vec
+        chunk_top1 = float(chunk_sims.max()) if chunk_sims.size else -1.0
+        para_top1 = float(para_sims.max()) if para_sims.size else -1.0
 
         # Ranking happens in the PARAGRAPH space (heading + full text,
         # German only): the more robust cross-lingual matcher. The chunk
@@ -104,24 +112,12 @@ class DenseRetriever:
         order = np.argsort(-para_sims)[:k]
         chunk_norm = chunk_sims / (chunk_sims.max() + 1e-9)
         results: list[ScoredChunk] = []
-        for rank, para_row in enumerate(order):
-            chunk_index = self._best_chunk_index(int(para_row), chunk_norm)
-            results.append(self._scored(rank + 1, chunk_index, float(para_sims[para_row])))
-        return results
-
-    def retrieve_debug(self, query: str, k: int = 5) -> tuple[list[ScoredChunk], dict]:
-        """Like retrieve(), but returns per-paragraph fusion detail for the
-        debug UI: paragraph-space and chunk-space scores side by side."""
-        query_vec = self._query_embedding(query)
-        chunk_sims = self.chunk_embeddings @ query_vec
-        para_sims = self.paragraph_embeddings @ query_vec
-        order = np.argsort(-para_sims)[:k]
-        chunk_norm = chunk_sims / (chunk_sims.max() + 1e-9)
         detail = []
-        for para_row in order:
+        for rank, para_row in enumerate(order):
             number = self.paragraph_numbers[int(para_row)]
             chunk_index = self._best_chunk_index(int(para_row), chunk_norm)
             chunk_score = float(chunk_sims[chunk_index]) if chunk_index >= 0 else None
+            results.append(self._scored(rank + 1, chunk_index, float(para_sims[para_row])))
             detail.append(
                 {
                     "paragraph": number,
@@ -130,7 +126,30 @@ class DenseRetriever:
                     "heading": self.paragraphs.get(number, {}).get("heading", ""),
                 }
             )
-        return self.retrieve(query, k), {"query_space": "e5 cosine", "rows": detail}
+        embedded = enrich_query(query) if self.enrich_enabled else query
+        return results, {
+            "query_space": "e5 cosine",
+            "rows": detail,
+            # exactly what the embedding model encoded (model prefix included)
+            "embedded_text": e5_prefix(embedded, is_query=True),
+            "dim": int(query_vec.shape[0]),
+            "n_paragraphs": len(self.paragraph_numbers),
+            "n_chunks": len(self.chunks),
+            "all_paragraphs": [
+                {
+                    "paragraph": number,
+                    "heading": self.paragraphs.get(number, {}).get("heading", ""),
+                    "cosine": round(float(para_sims[row]), 4),
+                }
+                for row, number in enumerate(self.paragraph_numbers)
+            ],
+            # same formula as confidence(), from the same query vector
+            "confidence": {
+                "value": round(_to_confidence(chunk_top1, para_top1), 4),
+                "chunk_top1": round(chunk_top1, 4),
+                "paragraph_top1": round(para_top1, 4),
+            },
+        }
 
     def _best_chunk_index(self, para_row: int, chunk_norm: np.ndarray) -> int:
         best_index, best_value = -1, -1.0
@@ -145,11 +164,10 @@ class DenseRetriever:
         query_vec = self._query_embedding(query)
         chunk_sims = self.chunk_embeddings @ query_vec
         para_sims = self.paragraph_embeddings @ query_vec
-        top1 = max(
+        return _to_confidence(
             float(chunk_sims.max()) if chunk_sims.size else -1.0,
             float(para_sims.max()) if para_sims.size else -1.0,
         )
-        return (top1 + 1.0) / 2.0  # map [-1, 1] -> [0, 1]
 
     def _scored(self, index: int, chunk_index: int, score: float) -> ScoredChunk:
         if chunk_index >= 0:
@@ -175,3 +193,8 @@ class DenseRetriever:
             score=score,
             index=index,
         )
+
+
+def _to_confidence(chunk_top1: float, paragraph_top1: float) -> float:
+    """Best cosine across both spaces, mapped from [-1, 1] to [0, 1]."""
+    return (max(chunk_top1, paragraph_top1) + 1.0) / 2.0

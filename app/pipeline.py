@@ -13,14 +13,16 @@ from __future__ import annotations
 import json
 import logging
 import re
+import time
 from dataclasses import dataclass, field
 from pathlib import Path
 
 from app.citations import VerificationResult, assemble_citations, verify_answer
 from app.config import LLMEndpointConfig
-from app.llm import chat_completion
+from app.llm import chat_completion, chat_completion_stream
 from app.rewriting import is_follow_up, rewrite_query
 from app.trace import (
+    DeltaBatcher,
     TraceCollector,
     trace_bm25,
     trace_citations,
@@ -42,6 +44,7 @@ PROMPTS_DIR = REPO_ROOT / "app" / "prompts"
 FLOOR_BASELINE_PATH = REPO_ROOT / "evals" / "baselines" / "floor.json"
 
 MAX_REGENERATION_ATTEMPTS = 2
+GENERATION_PARAMS = {"temperature": 0.0, "max_tokens": 1024}  # chat_completion defaults
 SESSION_TTL_SECONDS = 30 * 60
 SESSION_MAX_EXCHANGES = 3
 
@@ -112,6 +115,7 @@ class AskResult:
     gap_note: str | None = None
     verification: VerificationResult | None = None
     retrieved: list[dict] = field(default_factory=list)
+    usage: dict = field(default_factory=dict)  # summed LLM token usage
 
 
 class SessionStore:
@@ -217,6 +221,8 @@ class Pipeline:
         history: list[dict] | None = None,
         collector: TraceCollector | None = None,
     ) -> AskResult:
+        if collector is not None:
+            collector.mark()  # time stages from here, not from queueing for a worker
         if looks_german(question):
             if collector is not None:
                 collector.add(
@@ -235,6 +241,7 @@ class Pipeline:
             )
 
         working_query = question
+        total_usage: dict[str, int] = {}
         if session_id and self.rewrite_enabled and is_follow_up(question, True):
             prior = history if history is not None else self.sessions.get_history(session_id, now)
             if prior:
@@ -247,26 +254,50 @@ class Pipeline:
                             "note": "follow-up detected -> LLM rewrite before retrieval",
                         },
                     )
-                working_query = rewrite_query(question, prior, self.generator, self.rewrite_prompt)
+                rewrite_usage: dict = {}
+                rewrite_status: dict = {}
+                working_query = rewrite_query(
+                    question,
+                    prior,
+                    self.generator,
+                    self.rewrite_prompt,
+                    usage_out=rewrite_usage,
+                    status_out=rewrite_status,
+                )
+                _add_usage(total_usage, rewrite_usage)
                 if collector is not None:
                     collector.add(
                         "follow_up_rewrite_result",
-                        {"rewritten": working_query, "note": "standalone retrieval query"},
+                        {
+                            "rewritten": working_query,
+                            "usage": rewrite_usage,
+                            "fell_back": rewrite_status.get("fell_back", False),
+                            "note": "no rewrite returned - searching with the question as typed"
+                            if rewrite_status.get("fell_back")
+                            else "standalone retrieval query",
+                        },
                     )
 
+        components: dict | None = None
         if collector is not None:
-            trace_enrichment(collector, question, enrich_query(question))
-
-        chunks = self.retriever.retrieve(working_query, k=5)
-        if collector is not None:
-            self._trace_retrieval(collector, working_query)
+            trace_enrichment(collector, working_query, enrich_query(working_query))
+            chunks, components = self._retrieve_traced(collector, working_query)
+            collector.mark()
+        else:
+            chunks = self.retriever.retrieve(working_query, k=5)
 
         floor = self._effective_floor()
-        confidence = self.retriever.confidence(working_query)
+        if components is not None:  # computed from the same query vector as retrieval
+            confidence = components["value"]
+        else:
+            confidence = self.retriever.confidence(working_query)
         if collector is not None:
-            trace_floor(collector, confidence, floor, floor is None or confidence >= floor)
+            trace_floor(
+                collector, confidence, floor, floor is None or confidence >= floor, components
+            )
         if floor is not None and chunks and confidence < floor:
             result = self._out_of_scope(request_id, chunks)
+            result.usage = total_usage  # a follow-up rewrite may have spent tokens
             if collector is not None:
                 collector.add(
                     "out_of_scope_response",
@@ -278,29 +309,38 @@ class Pipeline:
             return result
 
         gap_entry = match_gap_annotations(question, chunks, self.annotations)
-        prompt = self._build_prompt(question, chunks, gap_entry)
-        if collector is not None:
-            trace_prompt(collector, prompt, chunks, self._gap_note(gap_entry))
-
-        answer = self._generate(prompt)
-        verification = verify_answer(answer, chunks, self.paragraphs)
-        if collector is not None:
-            trace_generation(collector, 1, answer, verification.ok, verification.failures)
-
-        attempts = 1
-        while not verification.ok and attempts < MAX_REGENERATION_ATTEMPTS:
-            feedback = "\n".join(f"- {f}" for f in verification.failures)
-            prompt = self._build_prompt(question, chunks, gap_entry, feedback=feedback)
-            answer = self._generate(prompt)
-            verification = verify_answer(answer, chunks, self.paragraphs)
+        attempts = 0
+        feedback: str | None = None
+        while True:
             attempts += 1
+            sections = self._prompt_sections(question, chunks, gap_entry, feedback=feedback)
+            prompt = "\n".join(section["text"] for section in sections)
             if collector is not None:
-                trace_generation(
-                    collector, attempts, answer, verification.ok, verification.failures
+                trace_prompt(
+                    collector,
+                    self._messages(prompt),
+                    sections,
+                    chunks,
+                    self._gap_note(gap_entry),
+                    {"model": self.generator.model if self.generator else "", **GENERATION_PARAMS},
                 )
+                collector.mark()
+                batcher = DeltaBatcher(collector, attempts)
+                answer, info = self._generate(prompt, on_delta=batcher.push)
+                batcher.flush()
+            else:
+                answer, info = self._generate(prompt)
+            _add_usage(total_usage, info.get("usage") or {})
+            verification = verify_answer(answer, chunks, self.paragraphs)
+            if collector is not None:
+                trace_generation(collector, attempts, answer, verification, info)
+            if verification.ok or attempts >= MAX_REGENERATION_ATTEMPTS:
+                break
+            feedback = "\n".join(f"- {f}" for f in verification.failures)
 
         if not verification.ok:
             result = self._refusal(request_id, chunks, verification)
+            result.usage = total_usage
             if collector is not None:
                 collector.add(
                     "refusal",
@@ -325,31 +365,46 @@ class Pipeline:
             gap_note=self._gap_note(gap_entry),
             verification=verification,
             retrieved=[c.to_json() for c in chunks],
+            usage=total_usage,
         )
 
-    def _trace_retrieval(self, collector: TraceCollector, working_query: str) -> None:
-        """Record per-backend retrieval detail via the retriever's debug view."""
+    def _retrieve_traced(
+        self, collector: TraceCollector, working_query: str
+    ) -> tuple[list, dict | None]:
+        """Retrieve once through the retriever's debug view and record each
+        arm (BM25, dense, fusion) with its own timing. Also returns the
+        confidence components when the debug view computed them."""
         debug = getattr(self.retriever, "retrieve_debug", None)
         if debug is None:
+            started = time.perf_counter()
+            chunks = self.retriever.retrieve(working_query, k=5)
             collector.add(
                 "retrieval",
                 {"backend": type(self.retriever).__name__, "note": "no debug view available"},
+                duration_ms=(time.perf_counter() - started) * 1000,
             )
-            return
-        _hits, detail = debug(working_query, k=5)
+            return chunks, None
+        started = time.perf_counter()
+        chunks, detail = debug(working_query, k=5)
         if "fusion" in detail:  # hybrid
-            trace_bm25(collector, self.retriever._bm25.retrieve(working_query, k=10))
-            collector.add(
-                "dense_retrieval",
-                {
-                    "backend": "multilingual-e5 (cosine, paragraph + chunk spaces)",
-                    **detail.get("dense_per_paragraph", {}),
-                    "top10": detail.get("dense_top10", []),
-                },
+            timings = detail["timings_ms"]
+            trace_bm25(
+                collector,
+                working_query,
+                detail["bm25_top10"],
+                {**detail["bm25_detail"], "duration_ms": timings["bm25"]},
             )
-            trace_fusion(collector, self.retriever.retrieve(working_query, k=5), detail["weights"])
-        else:  # dense
-            trace_dense(collector, self.retriever.retrieve(working_query, k=5), detail)
+            trace_dense(
+                collector,
+                {**detail["dense_per_paragraph"], "top10": detail["dense_top10"]},
+                timings["dense"],
+            )
+            trace_fusion(collector, chunks, detail["fusion"], detail["weights"], timings["fusion"])
+            return chunks, detail["confidence"]
+        # dense
+        components = detail.pop("confidence", None)
+        trace_dense(collector, detail, (time.perf_counter() - started) * 1000)
+        return chunks, components
 
     def _gap_note(self, gap_entry: dict | None) -> str | None:
         if gap_entry is None:
@@ -402,38 +457,91 @@ class Pipeline:
             retrieved=[c.to_json() for c in chunks],
         )
 
-    def _build_prompt(
+    def _prompt_sections(
         self,
         question: str,
         chunks: list[ScoredChunk],
         gap_entry: dict | None,
         feedback: str | None = None,
-    ) -> str:
-        lines = [self.answer_prompt, "", "Retrieved chunks:"]
+    ) -> list[dict]:
+        """The user message as labelled parts; joined with newlines they are
+        the exact text sent to the LLM."""
+        sections = [
+            {"kind": "rules", "label": "answer rules", "text": self.answer_prompt},
+            {"kind": "scaffold", "label": "", "text": "\nRetrieved chunks:"},
+        ]
         for chunk in chunks:
             heading = self.paragraphs.get(chunk.paragraph, {}).get("heading", "")
-            lines.append(f"[{chunk.index}] § {chunk.paragraph} BGB ({heading}): {chunk.chunk_text}")
+            label = f"[{chunk.index}] § {chunk.paragraph}"
+            sections.append(
+                {
+                    "kind": "chunk",
+                    "label": label,
+                    "text": f"{label} BGB ({heading}): {chunk.chunk_text}",
+                }
+            )
         if gap_entry is not None:
-            lines.append(
-                "\nContext note (precomputed): "
-                + self._gap_note(gap_entry)
-                + " If relevant, state explicitly what the statute does and does not regulate here."
+            sections.append(
+                {
+                    "kind": "gap_note",
+                    "label": "scope note",
+                    "text": "\nContext note (precomputed): "
+                    + self._gap_note(gap_entry)
+                    + " If relevant, state explicitly what the statute does and does not "
+                    "regulate here.",
+                }
             )
         if feedback:
-            lines.append(
-                f"\nYour previous attempt failed citation verification:\n{feedback}\n"
-                "Fix these issues: reference only provided chunk indexes and quote "
-                "German text exactly as it appears in the chunks."
+            sections.append(
+                {
+                    "kind": "feedback",
+                    "label": "verifier feedback",
+                    "text": f"\nYour previous attempt failed citation verification:\n{feedback}\n"
+                    "Fix these issues: reference only provided chunk indexes and quote "
+                    "German text exactly as it appears in the chunks.",
+                }
             )
-        lines.append(f"\nQuestion: {question}")
-        return "\n".join(lines)
-
-    def _generate(self, prompt: str) -> str:
-        body = chat_completion(
-            self.generator,
-            messages=[
-                {"role": "system", "content": self.answer_prompt},
-                {"role": "user", "content": prompt},
-            ],
+        sections.append(
+            {"kind": "question", "label": "question", "text": f"\nQuestion: {question}"}
         )
-        return (body["choices"][0]["message"]["content"] or "").strip()
+        return sections
+
+    def _messages(self, prompt: str) -> list[dict]:
+        return [
+            {"role": "system", "content": self.answer_prompt},
+            {"role": "user", "content": prompt},
+        ]
+
+    def _generate(self, prompt: str, on_delta=None) -> tuple[str, dict]:
+        """One LLM call. Streams through ``on_delta(kind, text)`` when given.
+        Returns the answer and call info: usage (estimated at ~4 characters
+        per token when the endpoint reports none, so the budget still
+        counts), reasoning, ttft_ms."""
+        messages = self._messages(prompt)
+        if on_delta is not None:
+            streamed = chat_completion_stream(
+                self.generator, messages, on_delta, **GENERATION_PARAMS
+            )
+            answer, usage = streamed.content.strip(), streamed.usage
+            info = {"reasoning": streamed.reasoning, "ttft_ms": streamed.ttft_ms}
+        else:
+            body = chat_completion(self.generator, messages=messages, **GENERATION_PARAMS)
+            answer = (body["choices"][0]["message"]["content"] or "").strip()
+            usage, info = body.get("usage") or {}, {}
+        if not usage.get("total_tokens"):
+            prompt_tokens = sum(len(m["content"]) for m in messages) // 4
+            completion_tokens = (len(answer) + len(info.get("reasoning", ""))) // 4
+            usage = {
+                "prompt_tokens": prompt_tokens,
+                "completion_tokens": completion_tokens,
+                "total_tokens": prompt_tokens + completion_tokens,
+            }
+            info["usage_estimated"] = True
+        info["usage"] = usage
+        return answer, info
+
+
+def _add_usage(total: dict[str, int], usage: dict) -> None:
+    for key in ("prompt_tokens", "completion_tokens", "total_tokens"):
+        if isinstance(usage.get(key), int):
+            total[key] = total.get(key, 0) + usage[key]

@@ -52,6 +52,7 @@ def _load_dotenv() -> None:
 def probe_endpoint() -> None:
     import os
 
+
     _load_dotenv()
     base_url = os.environ.get("LLM_BASE_URL", "").rstrip("/")
     model = os.environ.get("LLM_MODEL", "")

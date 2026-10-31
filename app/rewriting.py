@@ -38,6 +38,8 @@ _FOLLOW_UP_MARKERS = (
 
 _WORD_PATTERN = re.compile(r"\S+")
 
+REWRITE_MAX_TOKENS = 512
+
 
 def is_follow_up(query: str, session_exists: bool) -> bool:
     """Heuristic follow-up detection; requires an existing session."""
@@ -54,8 +56,15 @@ def rewrite_query(
     history: list[dict],
     endpoint: LLMEndpointConfig,
     system_prompt: str,
+    usage_out: dict | None = None,
+    status_out: dict | None = None,
 ) -> str:
-    """Rewrite a follow-up into a standalone retrieval query via the LLM."""
+    """Rewrite a follow-up into a standalone retrieval query via the LLM.
+
+    When ``usage_out`` is given, the endpoint's token usage is copied into it.
+    When ``status_out`` is given, ``status_out["fell_back"]`` says whether the
+    model returned nothing and the original question was used instead.
+    """
     transcript = "\n".join(f"{exchange['role']}: {exchange['content']}" for exchange in history)
     body = chat_completion(
         endpoint,
@@ -67,7 +76,13 @@ def rewrite_query(
                 f"New user message: {query}\n\nStandalone query:",
             },
         ],
-        max_tokens=128,
+        # Reasoning models spend part of the budget thinking before they write;
+        # 128 tokens was regularly used up by reasoning alone (empty content).
+        max_tokens=REWRITE_MAX_TOKENS,
     )
+    if usage_out is not None:
+        usage_out.update(body.get("usage") or {})
     rewritten = (body["choices"][0]["message"]["content"] or "").strip()
+    if status_out is not None:
+        status_out["fell_back"] = not rewritten
     return rewritten or query

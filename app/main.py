@@ -1,6 +1,7 @@
 """FastAPI application - the product surface.
 
-Routes: ``POST /ask`` (the product endpoint), ``GET /health`` (process
+Routes: ``POST /ask`` (the product endpoint), ``POST /ask/stream`` (the
+same request as NDJSON pipeline-stage events, for the debug UI), ``GET /health`` (process
 alive), ``GET /health/ready`` (names the failed dependency; an empty index
 or an unreachable LLM fails readiness, while Langfuse being down is
 reported in the response but does not fail readiness). Structured JSON logs
@@ -11,6 +12,7 @@ explicit 503s with a reason - never a silent empty answer.
 
 from __future__ import annotations
 
+import asyncio
 import json
 import logging
 import sys
@@ -22,7 +24,7 @@ from pathlib import Path
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, StreamingResponse
 from pydantic import BaseModel, Field
 
 from app.config import get_settings
@@ -212,11 +214,10 @@ def _prompt_version() -> str:
     return hasher.hexdigest()[:12]
 
 
-@app.post("/ask", response_model=AskResponse)
-async def ask(payload: AskRequest, request: Request) -> AskResponse:
-    request_id = uuid.uuid4().hex[:12]
+def _admit(request: Request, request_id: str) -> Pipeline:
+    """Guardrails shared by /ask and /ask/stream. Raises the HTTP error
+    before any response (or stream) starts."""
     ip = _client_ip(request)
-
     limiter: RateLimiter = _state["rate_limiter"]
     if not limiter.allow(ip):
         raise HTTPException(
@@ -239,39 +240,68 @@ async def ask(payload: AskRequest, request: Request) -> AskResponse:
             },
         )
 
-    semaphore: LLMSemaphore = _state["semaphore"]
     pipeline: Pipeline | None = _state.get("pipeline")
     if pipeline is None:
         raise HTTPException(
             status_code=503,
             detail={"error": "index not loaded", "request_id": request_id},
         )
+    return pipeline
+
+
+def _trace_meta() -> dict:
+    """Static configuration shown in the debug UI next to every trace."""
+    settings = _state["settings"]
+    return {
+        "llm_model": settings.LLM_MODEL,
+        "retrieval_backend": settings.RETRIEVAL_BACKEND,
+        "embedding_model": settings.EMBEDDING_MODEL,
+        "collection": settings.ACTIVE_COLLECTION,
+        "prompt_version": _prompt_version(),
+    }
+
+
+async def _run_pipeline(
+    pipeline: Pipeline,
+    payload: AskRequest,
+    request_id: str,
+    collector: TraceCollector | None,
+) -> AskResponse:
+    """Run one request through the pipeline off the event loop, then log,
+    record token spend, and trace it.
+
+    The concurrency slot is released when the worker thread finishes, not
+    when the caller goes away: a disconnected stream client must not free a
+    slot while its LLM call is still running.
+    """
+    semaphore: LLMSemaphore = _state["semaphore"]
+    try:
+        await semaphore.acquire()
+    except ConcurrencyFullError:
+        raise HTTPException(
+            status_code=429,
+            detail={"error": "server busy, retry shortly", "request_id": request_id},
+        ) from None
 
     started = time.monotonic()
-    collector = (
-        TraceCollector(request_id=request_id, question=payload.question) if payload.debug else None
-    )
-    await semaphore.acquire()
-    try:
-        result = pipeline.ask(
+    worker = asyncio.ensure_future(
+        asyncio.to_thread(
+            pipeline.ask,
             payload.question,
             session_id=payload.session_id,
             request_id=request_id,
             now=time.time(),
             collector=collector,
         )
-    except ConcurrencyFullError:
-        raise HTTPException(
-            status_code=429,
-            detail={"error": "server busy, retry shortly", "request_id": request_id},
-        ) from None
+    )
+    worker.add_done_callback(lambda _: semaphore.release())
+    try:
+        result = await asyncio.shield(worker)
     except LLMError as exc:
         raise HTTPException(
             status_code=503,
             detail={"error": f"LLM endpoint unavailable: {exc}", "request_id": request_id},
         ) from exc
-    finally:
-        semaphore.release()
 
     latency_ms = int((time.monotonic() - started) * 1000)
     logger.info(
@@ -282,9 +312,13 @@ async def ask(payload: AskRequest, request: Request) -> AskResponse:
             "behavior": result.behavior,
         },
     )
+    tokens = result.usage.get("total_tokens", 0)
+    if tokens:
+        _state["budget"].record(tokens)
     tracer = _state.get("tracer")
     if tracer is not None:
-        tracer.trace_request(
+        await asyncio.to_thread(
+            tracer.trace_request,
             request_id=request_id,
             question=payload.question,
             answer=result.answer,
@@ -295,6 +329,10 @@ async def ask(payload: AskRequest, request: Request) -> AskResponse:
             model=_state["settings"].LLM_MODEL,
             prompt_version=_prompt_version(),
         )
+    trace = None
+    if collector is not None:
+        trace = collector.to_json()
+        trace["usage"] = result.usage
     return AskResponse(
         answer=result.answer,
         citations=[asdict_citation(c) for c in result.citations],
@@ -303,8 +341,88 @@ async def ask(payload: AskRequest, request: Request) -> AskResponse:
         request_id=request_id,
         behavior=result.behavior,
         gap_note=result.gap_note,
-        trace=collector.to_json() if collector is not None else None,
+        trace=trace,
     )
+
+
+@app.post("/ask", response_model=AskResponse)
+async def ask(payload: AskRequest, request: Request) -> AskResponse:
+    request_id = uuid.uuid4().hex[:12]
+    pipeline = _admit(request, request_id)
+    collector = (
+        TraceCollector(request_id=request_id, question=payload.question, meta=_trace_meta())
+        if payload.debug
+        else None
+    )
+    return await _run_pipeline(pipeline, payload, request_id, collector)
+
+
+@app.post("/ask/stream")
+async def ask_stream(payload: AskRequest, request: Request) -> StreamingResponse:
+    """Same as /ask with debug=true, streamed as NDJSON so a client can show
+    each pipeline stage the moment it finishes.
+
+    Events, one JSON object per line: ``{"type": "start", ...}``, then
+    ``{"type": "stage", "stage": {...}}`` per stage, while the LLM writes
+    ``{"type": "llm_start", "attempt": n}`` and batched
+    ``{"type": "delta", "attempt": n, "kind": "reasoning" | "content", "text": ...}``
+    (an unverified draft - the UI must not present it as the answer), then exactly one of
+    ``{"type": "result", "response": {...}}`` or
+    ``{"type": "error", "status": ..., "error": ..., "request_id": ...}``.
+    Rate-limit, budget and index failures are plain HTTP errors before the
+    stream opens; failures after that (busy LLM slot, LLM down) arrive as an
+    ``error`` event.
+    """
+    request_id = uuid.uuid4().hex[:12]
+    pipeline = _admit(request, request_id)
+    loop = asyncio.get_running_loop()
+    queue: asyncio.Queue[dict] = asyncio.Queue()
+    collector = TraceCollector(
+        request_id=request_id,
+        question=payload.question,
+        meta=_trace_meta(),
+        listener=lambda event: loop.call_soon_threadsafe(queue.put_nowait, event),
+    )
+
+    async def run() -> None:
+        try:
+            response = await _run_pipeline(pipeline, payload, request_id, collector)
+            event = {"type": "result", "response": response.model_dump()}
+        except HTTPException as exc:
+            detail = exc.detail if isinstance(exc.detail, dict) else {"error": str(exc.detail)}
+            event = {"type": "error", "status": exc.status_code, **detail}
+        except Exception:  # noqa: BLE001 - reported to the client, never a hung stream
+            logger.exception("stream request failed", extra={"request_id": request_id})
+            event = {
+                "type": "error",
+                "status": 500,
+                "error": "internal error",
+                "request_id": request_id,
+            }
+        queue.put_nowait(event)
+
+    async def events() -> AsyncIterator[str]:
+        yield _ndjson({"type": "start", "request_id": request_id, "meta": collector.meta})
+        task = asyncio.create_task(run())
+        try:
+            while True:
+                event = await queue.get()
+                yield _ndjson(event)
+                if event["type"] in ("result", "error"):
+                    break
+        finally:
+            if not task.done():
+                task.cancel()
+
+    return StreamingResponse(
+        events(),
+        media_type="application/x-ndjson",
+        headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
+    )
+
+
+def _ndjson(event: dict) -> str:
+    return json.dumps(event, ensure_ascii=False) + "\n"
 
 
 def asdict_citation(citation: dict) -> dict:

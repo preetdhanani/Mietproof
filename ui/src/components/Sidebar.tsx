@@ -11,14 +11,14 @@ interface SidebarProps {
 
 export function Sidebar({ sessions, activeId, onSelect, onNew, onDelete }: SidebarProps) {
   return (
-    <aside className="w-64 shrink-0 flex flex-col border-r border-zinc-800 bg-zinc-950">
-      <div className="flex items-center gap-2 px-4 py-4 border-b border-zinc-800">
+    <aside className="hidden md:flex w-64 shrink-0 flex-col border-r border-zinc-800 bg-zinc-950">
+      <div className="flex items-center gap-2 px-4 h-14 shrink-0 border-b border-zinc-800">
         <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-500/15">
           <Scale className="h-4 w-4 text-emerald-400" />
         </div>
         <div className="min-w-0">
           <h1 className="text-sm font-semibold text-zinc-100 leading-tight">BGB Rental Law</h1>
-          <p className="text-[10px] text-zinc-500">RAG assistant · traceable</p>
+          <p className="text-[10px] text-zinc-500">RAG assistant · every step traced</p>
         </div>
       </div>
 

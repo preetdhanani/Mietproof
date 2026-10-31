@@ -17,7 +17,7 @@ from __future__ import annotations
 
 import re
 import unicodedata
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 from retrieval.base import ScoredChunk
 
@@ -54,6 +54,8 @@ class Citation:
 class VerificationResult:
     ok: bool
     failures: list[str]
+    # every check that ran: {"kind": "ref" | "paragraph" | "quote", "target", "passed", "detail"}
+    checks: list[dict] = field(default_factory=list)
 
 
 def extract_chunk_refs(answer: str) -> list[int]:
@@ -109,12 +111,26 @@ def verify_answer(
 ) -> VerificationResult:
     """Run the three deterministic citation checks against one answer."""
     failures: list[str] = []
+    checks: list[dict] = []
+
+    def check(kind: str, target: str, passed: bool, detail: str) -> None:
+        checks.append({"kind": kind, "target": target, "passed": passed, "detail": detail})
+        if not passed:
+            failures.append(detail)
+
     refs = extract_chunk_refs(answer)
 
     provided = {c.index for c in chunks}
     for index in refs:
-        if index not in provided:
-            failures.append(f"referenced chunk [{index}] was not provided to the model")
+        if index in provided:
+            check("ref", f"[{index}]", True, f"chunk [{index}] was provided to the model")
+        else:
+            check(
+                "ref",
+                f"[{index}]",
+                False,
+                f"referenced chunk [{index}] was not provided to the model",
+            )
 
     cited_paras = set()
     for index in refs:
@@ -122,18 +138,40 @@ def verify_answer(
         if chunk is not None:
             cited_paras.add(chunk.paragraph)
     for paragraph in sorted(cited_paras):
-        if paragraph not in paragraphs:
-            failures.append(f"cited § {paragraph} does not exist in the index")
+        if paragraph in paragraphs:
+            check("paragraph", f"§ {paragraph}", True, f"§ {paragraph} exists in the index")
+        else:
+            check(
+                "paragraph",
+                f"§ {paragraph}",
+                False,
+                f"cited § {paragraph} does not exist in the index",
+            )
 
     for quote in _QUOTE_PATTERN.findall(answer):
         if _word_count(quote) < 3:
             continue  # short spans are exempt
-        candidates = [paragraphs[p]["full_text"] for p in cited_paras if p in paragraphs]
+        candidates = [
+            (p, paragraphs[p]["full_text"]) for p in sorted(cited_paras) if p in paragraphs
+        ]
         if not candidates:
-            failures.append(f"quote {quote[:60]!r} has no referenced paragraph to check against")
+            check(
+                "quote",
+                quote,
+                False,
+                f"quote {quote[:60]!r} has no referenced paragraph to check against",
+            )
             continue
         normalized_quote = _normalize(quote)
-        if not any(normalized_quote in _normalize(candidate) for candidate in candidates):
-            failures.append(f"quote {quote[:60]!r} not found in the referenced paragraphs")
+        found = [p for p, text in candidates if normalized_quote in _normalize(text)]
+        if found:
+            check("quote", quote, True, f"found verbatim in § {found[0]}")
+        else:
+            check(
+                "quote",
+                quote,
+                False,
+                f"quote {quote[:60]!r} not found in the referenced paragraphs",
+            )
 
-    return VerificationResult(ok=not failures, failures=failures)
+    return VerificationResult(ok=not failures, failures=failures, checks=checks)

@@ -1,4 +1,6 @@
 .env
+.claude/
+CLAUDE.md
 __pycache__/
 *.pyc
 .venv/
@@ -17,6 +19,8 @@ deploy/data/
 
 # Collections built locally (ingested, not committed)
 data/collections/
+# Runtime state: daily token spend
+data/token_budget_state.json
 
 # React UI
 ui/node_modules/
