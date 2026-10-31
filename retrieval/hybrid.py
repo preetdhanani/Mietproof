@@ -63,3 +63,49 @@ class HybridRetriever:
     def confidence(self, query: str) -> float:
         # Dense side's value, per the design's normalization rule.
         return self._dense.confidence(query)
+
+    def retrieve_debug(self, query: str, k: int = 5) -> tuple[list[ScoredChunk], dict]:
+        """Like retrieve(), but returns both arms and the fusion math for
+        the debug UI."""
+        bm25_hits = self._bm25.retrieve(query, k=10)
+        dense_hits, dense_detail = self._dense.retrieve_debug(query, k=10)
+
+        scores: dict[tuple[str, str], float] = {}
+        contributions: dict[tuple[str, str], dict] = {}
+        for weight, name, ranking in (
+            (BM25_WEIGHT, "bm25", bm25_hits),
+            (DENSE_WEIGHT, "dense", dense_hits),
+        ):
+            for rank, chunk in enumerate(ranking):
+                key = (chunk.paragraph, chunk.absatz)
+                contribution = weight / (RRF_K + rank + 1)
+                scores[key] = scores.get(key, 0.0) + contribution
+                contributions.setdefault(key, {})[name] = {
+                    "rank": rank + 1,
+                    "contribution": round(contribution, 6),
+                }
+
+        order = sorted(scores.items(), key=lambda kv: -kv[1])[:k]
+        fusion_rows = []
+        for key, total in order:
+            fusion_rows.append(
+                {
+                    "paragraph": key[0],
+                    "absatz": key[1],
+                    "rrf_score": round(total, 6),
+                    "arms": contributions.get(key, {}),
+                }
+            )
+        return self.retrieve(query, k), {
+            "bm25_top10": [
+                {"paragraph": c.paragraph, "absatz": c.absatz, "score": round(c.score, 3)}
+                for c in bm25_hits
+            ],
+            "dense_top10": [
+                {"paragraph": c.paragraph, "absatz": c.absatz, "score": round(c.score, 4)}
+                for c in dense_hits
+            ],
+            "dense_per_paragraph": dense_detail,
+            "fusion": fusion_rows,
+            "weights": {"bm25": BM25_WEIGHT, "dense": DENSE_WEIGHT, "rrf_k": RRF_K},
+        }

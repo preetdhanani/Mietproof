@@ -33,6 +33,7 @@ from app.guardrails import (
 )
 from app.llm import LLMError, chat_completion
 from app.pipeline import DISCLAIMER, Pipeline, load_floor
+from app.trace import TraceCollector
 from app.tracing import build_tracer
 from retrieval.base import load_manifest
 from retrieval.factory import build_retriever
@@ -159,6 +160,7 @@ app = FastAPI(
 class AskRequest(BaseModel):
     question: str = Field(min_length=1, max_length=2000)
     session_id: str | None = None
+    debug: bool = False  # include the full pipeline trace (for the debug UI)
 
 
 class CitationOut(BaseModel):
@@ -179,6 +181,7 @@ class AskResponse(BaseModel):
     request_id: str
     behavior: str
     gap_note: str | None = None
+    trace: dict | None = None  # pipeline trace when debug=true
 
 
 def _client_ip(request: Request) -> str:
@@ -236,6 +239,9 @@ async def ask(payload: AskRequest, request: Request) -> AskResponse:
         )
 
     started = time.monotonic()
+    collector = (
+        TraceCollector(request_id=request_id, question=payload.question) if payload.debug else None
+    )
     await semaphore.acquire()
     try:
         result = pipeline.ask(
@@ -243,6 +249,7 @@ async def ask(payload: AskRequest, request: Request) -> AskResponse:
             session_id=payload.session_id,
             request_id=request_id,
             now=time.time(),
+            collector=collector,
         )
     except ConcurrencyFullError:
         raise HTTPException(
@@ -287,6 +294,7 @@ async def ask(payload: AskRequest, request: Request) -> AskResponse:
         request_id=request_id,
         behavior=result.behavior,
         gap_note=result.gap_note,
+        trace=collector.to_json() if collector is not None else None,
     )
 
 

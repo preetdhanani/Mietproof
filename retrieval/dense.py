@@ -98,9 +98,9 @@ class DenseRetriever:
         chunk_sims = self.chunk_embeddings @ query_vec
         para_sims = self.paragraph_embeddings @ query_vec
 
-        # Ranking happens in the PARAGRAPH space (heading + full text + gloss):
-        # it is the more robust cross-lingual matcher. The chunk space selects
-        # the displayed Absatz within each hit paragraph.
+        # Ranking happens in the PARAGRAPH space (heading + full text,
+        # German only): the more robust cross-lingual matcher. The chunk
+        # space selects the displayed Absatz within each hit paragraph.
         order = np.argsort(-para_sims)[:k]
         chunk_norm = chunk_sims / (chunk_sims.max() + 1e-9)
         results: list[ScoredChunk] = []
@@ -108,6 +108,29 @@ class DenseRetriever:
             chunk_index = self._best_chunk_index(int(para_row), chunk_norm)
             results.append(self._scored(rank + 1, chunk_index, float(para_sims[para_row])))
         return results
+
+    def retrieve_debug(self, query: str, k: int = 5) -> tuple[list[ScoredChunk], dict]:
+        """Like retrieve(), but returns per-paragraph fusion detail for the
+        debug UI: paragraph-space and chunk-space scores side by side."""
+        query_vec = self._query_embedding(query)
+        chunk_sims = self.chunk_embeddings @ query_vec
+        para_sims = self.paragraph_embeddings @ query_vec
+        order = np.argsort(-para_sims)[:k]
+        chunk_norm = chunk_sims / (chunk_sims.max() + 1e-9)
+        detail = []
+        for para_row in order:
+            number = self.paragraph_numbers[int(para_row)]
+            chunk_index = self._best_chunk_index(int(para_row), chunk_norm)
+            chunk_score = float(chunk_sims[chunk_index]) if chunk_index >= 0 else None
+            detail.append(
+                {
+                    "paragraph": number,
+                    "paragraph_cosine": round(float(para_sims[para_row]), 4),
+                    "best_chunk_cosine": round(chunk_score, 4) if chunk_score is not None else None,
+                    "heading": self.paragraphs.get(number, {}).get("heading", ""),
+                }
+            )
+        return self.retrieve(query, k), {"query_space": "e5 cosine", "rows": detail}
 
     def _best_chunk_index(self, para_row: int, chunk_norm: np.ndarray) -> int:
         best_index, best_value = -1, -1.0

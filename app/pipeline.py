@@ -20,7 +20,19 @@ from app.citations import VerificationResult, assemble_citations, verify_answer
 from app.config import LLMEndpointConfig
 from app.llm import chat_completion
 from app.rewriting import is_follow_up, rewrite_query
+from app.trace import (
+    TraceCollector,
+    trace_bm25,
+    trace_citations,
+    trace_dense,
+    trace_enrichment,
+    trace_floor,
+    trace_fusion,
+    trace_generation,
+    trace_prompt,
+)
 from retrieval.base import Retriever, ScoredChunk
+from retrieval.enrich import enrich_query
 
 logger = logging.getLogger(__name__)
 
@@ -203,8 +215,17 @@ class Pipeline:
         request_id: str = "",
         now: float = 0.0,
         history: list[dict] | None = None,
+        collector: TraceCollector | None = None,
     ) -> AskResult:
         if looks_german(question):
+            if collector is not None:
+                collector.add(
+                    "german_input_detection",
+                    {
+                        "question": question,
+                        "note": "umlaut/stop-word heuristic fired - fixed template, no LLM call",
+                    },
+                )
             return AskResult(
                 answer=GERMAN_RESPONSE_TEMPLATE,
                 citations=[],
@@ -217,32 +238,82 @@ class Pipeline:
         if session_id and self.rewrite_enabled and is_follow_up(question, True):
             prior = history if history is not None else self.sessions.get_history(session_id, now)
             if prior:
+                if collector is not None:
+                    collector.add(
+                        "follow_up_rewrite",
+                        {
+                            "original": question,
+                            "history_used": prior[-2:],
+                            "note": "follow-up detected -> LLM rewrite before retrieval",
+                        },
+                    )
                 working_query = rewrite_query(question, prior, self.generator, self.rewrite_prompt)
+                if collector is not None:
+                    collector.add(
+                        "follow_up_rewrite_result",
+                        {"rewritten": working_query, "note": "standalone retrieval query"},
+                    )
+
+        if collector is not None:
+            trace_enrichment(collector, question, enrich_query(question))
 
         chunks = self.retriever.retrieve(working_query, k=5)
+        if collector is not None:
+            self._trace_retrieval(collector, working_query)
 
         floor = self._effective_floor()
-        if floor is not None and chunks and self.retriever.confidence(working_query) < floor:
-            return self._out_of_scope(request_id, chunks)
+        confidence = self.retriever.confidence(working_query)
+        if collector is not None:
+            trace_floor(collector, confidence, floor, floor is None or confidence >= floor)
+        if floor is not None and chunks and confidence < floor:
+            result = self._out_of_scope(request_id, chunks)
+            if collector is not None:
+                collector.add(
+                    "out_of_scope_response",
+                    {
+                        "topics": covered_topics(self.annotations, self.laws),
+                        "note": "below the floor - covered-topics list returned, no LLM call",
+                    },
+                )
+            return result
 
         gap_entry = match_gap_annotations(question, chunks, self.annotations)
         prompt = self._build_prompt(question, chunks, gap_entry)
+        if collector is not None:
+            trace_prompt(collector, prompt, chunks, self._gap_note(gap_entry))
+
         answer = self._generate(prompt)
         verification = verify_answer(answer, chunks, self.paragraphs)
+        if collector is not None:
+            trace_generation(collector, 1, answer, verification.ok, verification.failures)
 
         attempts = 1
         while not verification.ok and attempts < MAX_REGENERATION_ATTEMPTS:
             feedback = "\n".join(f"- {f}" for f in verification.failures)
-            answer = self._generate(
-                self._build_prompt(question, chunks, gap_entry, feedback=feedback)
-            )
+            prompt = self._build_prompt(question, chunks, gap_entry, feedback=feedback)
+            answer = self._generate(prompt)
             verification = verify_answer(answer, chunks, self.paragraphs)
             attempts += 1
+            if collector is not None:
+                trace_generation(
+                    collector, attempts, answer, verification.ok, verification.failures
+                )
 
         if not verification.ok:
-            return self._refusal(request_id, chunks, verification)
+            result = self._refusal(request_id, chunks, verification)
+            if collector is not None:
+                collector.add(
+                    "refusal",
+                    {
+                        "note": "verification failed twice - nearest paragraphs shown instead",
+                        "failures": verification.failures,
+                    },
+                )
+            return result
 
         citations = assemble_citations(answer, chunks)
+        if collector is not None:
+            trace_citations(collector, [c.to_json() for c in citations])
         if session_id:
             self.sessions.append(session_id, question, answer, now)
         return AskResult(
@@ -255,6 +326,30 @@ class Pipeline:
             verification=verification,
             retrieved=[c.to_json() for c in chunks],
         )
+
+    def _trace_retrieval(self, collector: TraceCollector, working_query: str) -> None:
+        """Record per-backend retrieval detail via the retriever's debug view."""
+        debug = getattr(self.retriever, "retrieve_debug", None)
+        if debug is None:
+            collector.add(
+                "retrieval",
+                {"backend": type(self.retriever).__name__, "note": "no debug view available"},
+            )
+            return
+        _hits, detail = debug(working_query, k=5)
+        if "fusion" in detail:  # hybrid
+            trace_bm25(collector, self.retriever._bm25.retrieve(working_query, k=10))
+            collector.add(
+                "dense_retrieval",
+                {
+                    "backend": "multilingual-e5 (cosine, paragraph + chunk spaces)",
+                    **detail.get("dense_per_paragraph", {}),
+                    "top10": detail.get("dense_top10", []),
+                },
+            )
+            trace_fusion(collector, self.retriever.retrieve(working_query, k=5), detail["weights"])
+        else:  # dense
+            trace_dense(collector, self.retriever.retrieve(working_query, k=5), detail)
 
     def _gap_note(self, gap_entry: dict | None) -> str | None:
         if gap_entry is None:
