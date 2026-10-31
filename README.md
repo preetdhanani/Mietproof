@@ -8,6 +8,15 @@ Watch every step of the backend while it works.
 
 General statutory information, not legal advice.
 
+[![The citation line — the whole pipeline as one machine](anatomy/citation-line/citation-line.svg)](https://preetdhanani.github.io/Mietproof/anatomy/citation-line/citation-line.html)
+
+*The whole pipeline as one machine — the question slip rides the rail from the
+quota meter to the dispatch tray, and only a stamped slip ships.
+[Open the interactive figure](https://preetdhanani.github.io/Mietproof/anatomy/citation-line/citation-line.html):
+`Space` runs a question through the line, every third question is
+out-of-scope and takes the siding, hovering a station shows its real numbers
+(k=5, the calibrated floor, the one-rewrite rule).*
+
 ## About me
 
 I'm Prit Dhanani, a master's student in AI.
